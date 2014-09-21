@@ -100,6 +100,7 @@ private:
     void addPoint(int x,  int y);
     void select(int x, int y);
     int lastpt;
+
     QVector3D * csv;  // The current selected vertex.  Set to null if none selected
     bool  drawon, permittransform;
     void drawFigure();
