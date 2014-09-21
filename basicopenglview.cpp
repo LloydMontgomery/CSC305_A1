@@ -88,10 +88,15 @@ void BasicOpenGLView::movePoint(int x, int y)
 
 void BasicOpenGLView::addPoint(int x, int y)
 {
-    lastpt++;
-    if (lastpt<MAXPTS) {
-        pnts[lastpt][0]=x;
-        pnts[lastpt][1]=y;
+    int i, j;
+    for (i = 0; i < polygons.size(); i++) {
+        for (j = 0; j < polygons.at(i).size(); j++) {
+            if (   ( (polygons.at(i).at(j).x()-RADIUS) < x && (polygons.at(i).at(j).x()+RADIUS) > x )
+                && ( (polygons.at(i).at(j).y()-RADIUS) < y && (polygons.at(i).at(j).y()+RADIUS) > y ) ) {
+                newPoly();
+                return;
+            }
+        }
     }
     polygons.last().append(QVector3D(x, y, 1));
 }
@@ -115,7 +120,8 @@ void BasicOpenGLView::clearme()
     //    polygons.at(i).clear();
     // THIS IS NOT A DEEP CLEAR, FIX THIS
     polygons.clear();
-    polygons.append(QVector<QVector3D>());
+    polyColors.clear();
+    newPoly();
 
     update();
 }
@@ -147,16 +153,19 @@ void BasicOpenGLView::drawLine(double x0, double y0, double x1, double y1 )
 void BasicOpenGLView::drawFigure()
 {
     // draw a line between each pair of points
-    int x0,x1,y0,y1,i,j;
+    int x0,x1,y0,y1,i,j, firstX, firstY;
+    int numPolys = polygons.size();
 
-    for (i = 0; i < polygons.size(); i++)
+    for (i = 0; i < numPolys; i++)
     {
         if (polygons.at(i).size() <= 1)
             ;
         else
         {
-            x0 = polygons.at(i).at(0).x();
-            y0 = polygons.at(i).at(0).y();
+            firstX = polygons.at(i).at(0).x();
+            firstY = polygons.at(i).at(0).y();
+            x0 = firstX;
+            y0 = firstY;
 
             glColor3f(1.0f, 0.0f, 1.0f);
             for (j = 1; j < polygons.at(i).size(); j++) {
@@ -165,6 +174,10 @@ void BasicOpenGLView::drawFigure()
                 drawLine(x0, y0, x1, y1);
                 x0 = x1;  y0 = y1;
             }
+
+            // If this is a closed polygon, draw the last line
+            if (i != (numPolys - 1))
+                drawLine(x1, y1, firstX, firstY);
         }
 
 
