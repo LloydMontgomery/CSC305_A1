@@ -13,6 +13,7 @@ BasicOpenGLView::BasicOpenGLView(QWidget *parent)
     srand (time(NULL));
     newPoly();
     qDebug() << "NEW HERE";
+    qDebug() << "Move Master Along, separate from pointer branch";
 }
 
 void BasicOpenGLView::initializeGL()
