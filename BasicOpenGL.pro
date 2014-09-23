@@ -13,13 +13,9 @@ TEMPLATE = app
 SOURCES += main.cpp\
         linearalgebra.cpp mainwindow.cpp \
     basicopenglview.cpp \
-    polygon.cpp \
-    vertex.cpp
 
 HEADERS  += mainwindow.h linearalgebra.h foundation.h\
     basicopenglview.h \
     fondation.h \
-    polygon.h \
-    vertex.h
 
 FORMS    += mainwindow.ui
