@@ -10,6 +10,8 @@
 #include <QVector3D>
 #include <stdlib.h>
 #include <time.h>
+#include <QGenericMatrix>
+#include <QStack>
 
 #define MAXPTS 300
 #define RADIUS 8  // circle around a point for selection
@@ -37,6 +39,7 @@ public:
       */
     explicit BasicOpenGLView(QWidget *parent = 0);
     void clearme();
+    void pushMatrix(QMatrix3x3);
 
 
 
@@ -91,22 +94,22 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
 
 private:
-    bool mousedown, clearon;
-    jVec2 pnts[MAXPTS];   // store poly of 3 points here
-
-    QVector< QVector<QVector3D> > polygons;
-    QVector< QVector<double> > polyColors;
+    bool mousedown;
 
     void movePoint(int x, int y);
     void addPoint(int x,  int y);
     void select(int x, int y);
-    int lastpt;
 
-    QVector3D * csv;  // The current selected vertex.  Set to null if none selected
     bool  drawon, permittransform;
     void drawFigure();
     void drawCircle(double radius, double xcen, double ycen, bool line);
     void drawLine(double x0, double y0, double x1, double y1 );
+
+    /* Additional Variables */
+    QVector< QVector<QVector3D> > polygons;
+    QVector< QVector<double> > polyColors;
+    QVector3D * csv;  // The current selected vertex.  Set to null if none selected
+    QStack<QMatrix3x3> stack;
 
 };
 

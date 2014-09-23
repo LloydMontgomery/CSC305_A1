@@ -39,7 +39,7 @@ static const uint qt_meta_data_MainWindow[] = {
 
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0drawOpenGL()\0animate()\0"
-    "clearbut()\0"
+    "pushMatrix()\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -50,7 +50,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->drawOpenGL(); break;
         case 1: _t->animate(); break;
-        case 2: _t->clearbut(); break;
+        case 2: _t->pushMatrix(); break;
         default: ;
         }
     }

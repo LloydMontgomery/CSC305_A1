@@ -36,7 +36,18 @@ void MainWindow::animate()
     //ui->oglwidget->setanimate(animateon);
 }
 
-void MainWindow::clearbut()
+void MainWindow::pushMatrix()
 {
-    ui->oglwidget->clearme();
+    QMatrix3x3 temp = QMatrix3x3();
+    temp.operator()(0,0) = ui->m11->text().toDouble();
+    temp.operator()(0,1) = ui->m11->text().toDouble();
+    temp.operator()(0,2) = ui->m11->text().toDouble();
+    temp.operator()(1,0) = ui->m11->text().toDouble();
+    temp.operator()(1,1) = ui->m11->text().toDouble();
+    temp.operator()(1,2) = ui->m11->text().toDouble();
+    temp.operator()(2,0) = ui->m11->text().toDouble();
+    temp.operator()(2,1) = ui->m11->text().toDouble();
+    temp.operator()(2,2) = ui->m11->text().toDouble();
+
+    ui->oglwidget->pushMatrix(temp);
 }

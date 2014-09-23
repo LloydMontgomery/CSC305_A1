@@ -5,12 +5,13 @@
 BasicOpenGLView::BasicOpenGLView(QWidget *parent)
       : QGLWidget(parent), polygons(QVector< QVector<QVector3D> >())
 {
-    clearon = false;
     mousedown = false;
-    lastpt = -1;
-    csv = NULL;  // represents an unselected vertex
+
     //polygons = QVector< QVector<QVector3D> >();
-    srand (time(NULL));
+    csv = NULL;  // represents an unselected vertex
+    stack = QStack<QMatrix3x3>();
+
+    srand (time(NULL));  // Set the random seed
     newPoly();
 }
 
@@ -194,4 +195,9 @@ void BasicOpenGLView::newPoly()
     polyColors.last()[2] = ((double) rand() / (RAND_MAX));
     update();
 
+}
+
+void BasicOpenGLView::pushMatrix(QMatrix3x3 newMatrix)
+{
+    stack.push(newMatrix);
 }

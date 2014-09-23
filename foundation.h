@@ -1,7 +1,6 @@
 #ifndef foundation_h
 #define foundation_h
 
-#include "linearalgebra.h"
 #include <qgl.h>
 #include <qpushbutton.h>
 #include <qtimer.h>

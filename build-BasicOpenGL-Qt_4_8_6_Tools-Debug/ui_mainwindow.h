@@ -18,8 +18,8 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
 #include <QtGui/QMainWindow>
-#include <QtGui/QPlainTextEdit>
 #include <QtGui/QPushButton>
 #include <QtGui/QStatusBar>
 #include <QtGui/QTextBrowser>
@@ -42,19 +42,18 @@ public:
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
     QGroupBox *groupBox_2;
-    QWidget *gridLayoutWidget;
-    QGridLayout *gridLayout_2;
-    QPlainTextEdit *plainTextEdit_5;
-    QPlainTextEdit *plainTextEdit_6;
-    QPlainTextEdit *plainTextEdit_4;
-    QPlainTextEdit *plainTextEdit_2;
-    QPlainTextEdit *plainTextEdit;
-    QPlainTextEdit *plainTextEdit_3;
-    QPlainTextEdit *plainTextEdit_7;
-    QPlainTextEdit *plainTextEdit_8;
-    QPlainTextEdit *plainTextEdit_9;
+    QLineEdit *m11;
+    QLineEdit *m12;
+    QLineEdit *m13;
+    QLineEdit *m21;
+    QLineEdit *m22;
+    QLineEdit *m23;
+    QLineEdit *m31;
+    QLineEdit *m32;
+    QLineEdit *m33;
     QGroupBox *groupBox_3;
     QTextBrowser *textBrowser;
+    QPushButton *pushButton_4;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -116,112 +115,53 @@ public:
         QFont font1;
         font1.setPointSize(18);
         groupBox_2->setFont(font1);
-        gridLayoutWidget = new QWidget(groupBox_2);
-        gridLayoutWidget->setObjectName(QString::fromUtf8("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(11, 39, 141, 81));
-        gridLayout_2 = new QGridLayout(gridLayoutWidget);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        plainTextEdit_5 = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit_5->setObjectName(QString::fromUtf8("plainTextEdit_5"));
+        m11 = new QLineEdit(groupBox_2);
+        m11->setObjectName(QString::fromUtf8("m11"));
+        m11->setGeometry(QRect(10, 40, 40, 21));
         QFont font2;
         font2.setPointSize(12);
-        plainTextEdit_5->setFont(font2);
-        plainTextEdit_5->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit_5->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_5->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_5->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit_5, 2, 1, 1, 1);
-
-        plainTextEdit_6 = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit_6->setObjectName(QString::fromUtf8("plainTextEdit_6"));
-        plainTextEdit_6->setFont(font2);
-        plainTextEdit_6->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit_6->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_6->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_6->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit_6, 2, 2, 1, 1);
-
-        plainTextEdit_4 = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit_4->setObjectName(QString::fromUtf8("plainTextEdit_4"));
-        plainTextEdit_4->setFont(font2);
-        plainTextEdit_4->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit_4->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_4->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_4->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit_4, 1, 2, 1, 1);
-
-        plainTextEdit_2 = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit_2->setObjectName(QString::fromUtf8("plainTextEdit_2"));
-        plainTextEdit_2->setFont(font2);
-        plainTextEdit_2->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_2->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit_2, 0, 2, 1, 1);
-
-        plainTextEdit = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit->setObjectName(QString::fromUtf8("plainTextEdit"));
-        plainTextEdit->setFont(font2);
-        plainTextEdit->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit, 0, 1, 1, 1);
-
-        plainTextEdit_3 = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit_3->setObjectName(QString::fromUtf8("plainTextEdit_3"));
-        plainTextEdit_3->setFont(font2);
-        plainTextEdit_3->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit_3->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_3->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit_3, 1, 1, 1, 1);
-
-        plainTextEdit_7 = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit_7->setObjectName(QString::fromUtf8("plainTextEdit_7"));
-        plainTextEdit_7->setFont(font2);
-        plainTextEdit_7->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit_7->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_7->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_7->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit_7, 0, 3, 1, 1);
-
-        plainTextEdit_8 = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit_8->setObjectName(QString::fromUtf8("plainTextEdit_8"));
-        plainTextEdit_8->setFont(font2);
-        plainTextEdit_8->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit_8->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_8->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_8->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit_8, 1, 3, 1, 1);
-
-        plainTextEdit_9 = new QPlainTextEdit(gridLayoutWidget);
-        plainTextEdit_9->setObjectName(QString::fromUtf8("plainTextEdit_9"));
-        plainTextEdit_9->setFont(font2);
-        plainTextEdit_9->viewport()->setProperty("cursor", QVariant(QCursor(Qt::IBeamCursor)));
-        plainTextEdit_9->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_9->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        plainTextEdit_9->setLineWrapMode(QPlainTextEdit::NoWrap);
-
-        gridLayout_2->addWidget(plainTextEdit_9, 2, 3, 1, 1);
-
+        m11->setFont(font2);
+        m12 = new QLineEdit(groupBox_2);
+        m12->setObjectName(QString::fromUtf8("m12"));
+        m12->setGeometry(QRect(60, 40, 40, 21));
+        m12->setFont(font2);
+        m13 = new QLineEdit(groupBox_2);
+        m13->setObjectName(QString::fromUtf8("m13"));
+        m13->setGeometry(QRect(110, 40, 40, 21));
+        m13->setFont(font2);
+        m21 = new QLineEdit(groupBox_2);
+        m21->setObjectName(QString::fromUtf8("m21"));
+        m21->setGeometry(QRect(10, 70, 40, 21));
+        m21->setFont(font2);
+        m22 = new QLineEdit(groupBox_2);
+        m22->setObjectName(QString::fromUtf8("m22"));
+        m22->setGeometry(QRect(60, 70, 40, 21));
+        m22->setFont(font2);
+        m23 = new QLineEdit(groupBox_2);
+        m23->setObjectName(QString::fromUtf8("m23"));
+        m23->setGeometry(QRect(110, 70, 40, 21));
+        m23->setFont(font2);
+        m31 = new QLineEdit(groupBox_2);
+        m31->setObjectName(QString::fromUtf8("m31"));
+        m31->setGeometry(QRect(10, 100, 40, 21));
+        m31->setFont(font2);
+        m32 = new QLineEdit(groupBox_2);
+        m32->setObjectName(QString::fromUtf8("m32"));
+        m32->setGeometry(QRect(60, 100, 40, 21));
+        m32->setFont(font2);
+        m33 = new QLineEdit(groupBox_2);
+        m33->setObjectName(QString::fromUtf8("m33"));
+        m33->setGeometry(QRect(110, 100, 40, 21));
+        m33->setFont(font2);
         groupBox_3 = new QGroupBox(groupBox);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
-        groupBox_3->setGeometry(QRect(5, 290, 165, 211));
+        groupBox_3->setGeometry(QRect(5, 370, 165, 211));
         textBrowser = new QTextBrowser(groupBox_3);
         textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
         textBrowser->setGeometry(QRect(8, 27, 151, 171));
+        pushButton_4 = new QPushButton(groupBox);
+        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
+        pushButton_4->setGeometry(QRect(30, 290, 114, 32));
 
         gridLayout->addWidget(groupBox, 1, 1, 1, 1);
 
@@ -238,8 +178,8 @@ public:
 
         retranslateUi(MainWindow);
         QObject::connect(pushButton, SIGNAL(clicked()), MainWindow, SLOT(close()));
-        QObject::connect(pushButton_2, SIGNAL(clicked()), MainWindow, SLOT(clearbut()));
         QObject::connect(pushButton_3, SIGNAL(clicked()), oglwidget, SLOT(newPoly()));
+        QObject::connect(pushButton_4, SIGNAL(clicked()), MainWindow, SLOT(pushMatrix()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -254,6 +194,7 @@ public:
         pushButton_3->setText(QApplication::translate("MainWindow", "New Polygon", 0, QApplication::UnicodeUTF8));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "    Input Matrix", 0, QApplication::UnicodeUTF8));
         groupBox_3->setTitle(QApplication::translate("MainWindow", "GroupBox", 0, QApplication::UnicodeUTF8));
+        pushButton_4->setText(QApplication::translate("MainWindow", "Push Matrix", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

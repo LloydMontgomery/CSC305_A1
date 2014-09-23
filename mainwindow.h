@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QGenericMatrix>
 
 namespace Ui {
 class MainWindow;
@@ -24,7 +25,7 @@ public slots:
       */
     void drawOpenGL();
     void animate();
-    void clearbut();
+    void pushMatrix();
     
 private:
     Ui::MainWindow *ui;

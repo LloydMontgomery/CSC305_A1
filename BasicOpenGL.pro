@@ -4,18 +4,18 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT      += core gui opengl
 
 TARGET = BasicOpenGL
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        linearalgebra.cpp mainwindow.cpp \
-    basicopenglview.cpp \
+        mainwindow.cpp\
+        basicopenglview.cpp\
 
-HEADERS  += mainwindow.h linearalgebra.h foundation.h\
-    basicopenglview.h \
-    fondation.h \
+HEADERS += mainwindow.h\
+        foundation.h\
+        basicopenglview.h\
 
-FORMS    += mainwindow.ui
+FORMS   += mainwindow.ui
