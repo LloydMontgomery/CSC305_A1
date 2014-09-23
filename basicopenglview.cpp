@@ -157,22 +157,25 @@ void BasicOpenGLView::drawFigure()
     // draw a line between each pair of points
     int x0,x1,y0,y1,i,j, firstX, firstY;
     int numPolys = polygons.size();
+    QVector3D transformed;
 
     for (i = 0; i < numPolys; i++)
     {
+        glColor3f(polyColors[i][0], polyColors[i][1], polyColors[i][2]);
         if (polygons.at(i).size() <= 1)
             ;
         else
         {
-            firstX = polygons.at(i).at(0).x();
-            firstY = polygons.at(i).at(0).y();
+            transformed = vectorTransform(polygons.at(i).at(0));
+            firstX = transformed.x();
+            firstY = transformed.y();
             x0 = firstX;
             y0 = firstY;
 
-            glColor3f(polyColors[i][0], polyColors[i][1], polyColors[i][2]);
             for (j = 1; j < polygons.at(i).size(); j++) {
-                x1 = polygons.at(i).at(j).x();
-                y1 = polygons.at(i).at(j).y();
+                transformed = vectorTransform(polygons.at(i).at(j));
+                x1 = transformed.x();
+                y1 = transformed.y();
                 drawLine(x0, y0, x1, y1);
                 x0 = x1;  y0 = y1;
             }
@@ -183,10 +186,21 @@ void BasicOpenGLView::drawFigure()
         }
 
 
-        glColor3f(polyColors[i][0], polyColors[i][1], polyColors[i][2]);
-        for (j = 0; j < polygons.at(i).size(); j++)
-            drawCircle( (double)RADIUS, polygons.at(i).at(j).x(), polygons.at(i).at(j).y(), false);
+        for (j = 0; j < polygons.at(i).size(); j++){
+            transformed = vectorTransform(polygons.at(i).at(j));
+            drawCircle( (double)RADIUS, transformed.x(), transformed.y(), false);
+        }
     }
+}
+
+QVector3D BasicOpenGLView::vectorTransform(QVector3D v)
+{
+    QVector3D transformed = QVector3D();
+    QMatrix3x3 m = stack.top();
+    transformed.setX( ((m.operator()(0,0))*v.x()) + ((m.operator()(0,1))*v.y()) + ((m.operator()(0,2))*v.z()) );
+    transformed.setY( ((m.operator()(1,0))*v.x()) + ((m.operator()(1,1))*v.y()) + ((m.operator()(1,2))*v.z()) );
+    transformed.setZ( ((m.operator()(2,0))*v.x()) + ((m.operator()(2,1))*v.y()) + ((m.operator()(2,2))*v.z()) );
+    return transformed;
 }
 
 void BasicOpenGLView::newPoly()
@@ -211,6 +225,8 @@ void BasicOpenGLView::pushMatrix(QMatrix3x3 newMatrix)
     stack.push(newMatrix*stack.top());
 
     qDebug() << stack.top();
+
+    update();
 
 
 }

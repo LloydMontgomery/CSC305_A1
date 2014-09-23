@@ -111,6 +111,7 @@ private:
 
     /* Additional Functions */
     void newStack();
+    QVector3D vectorTransform(QVector3D v);
 
 };
 

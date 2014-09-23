@@ -51,8 +51,17 @@ void MainWindow::pushMatrix()
     temp.operator()(2,1) = ui->m32->text().toDouble();
     temp.operator()(2,2) = ui->m33->text().toDouble();
 
-    //ui->textBrowser->setText("Hello");
     ui->oglwidget->pushMatrix(temp);
+
+//    ui->m11->setText("1");
+//    ui->m12->setText("0");
+//    ui->m13->setText("0");
+//    ui->m21->setText("0");
+//    ui->m22->setText("1");
+//    ui->m23->setText("0");
+//    ui->m31->setText("0");
+//    ui->m32->setText("0");
+//    ui->m33->setText("1");
 
     //printMatrices();
 
