@@ -13,6 +13,7 @@ BasicOpenGLView::BasicOpenGLView(QWidget *parent)
 
     srand (time(NULL));  // Set the random seed
     newPoly();
+    newStack();
 }
 
 void BasicOpenGLView::initializeGL()
@@ -121,6 +122,8 @@ void BasicOpenGLView::clearme()
     polygons.clear();
     polyColors.clear();
     newPoly();
+    stack.clear();
+    newStack();
 
     update();
 }
@@ -194,10 +197,29 @@ void BasicOpenGLView::newPoly()
     polyColors.last()[1] = ((double) rand() / (RAND_MAX));
     polyColors.last()[2] = ((double) rand() / (RAND_MAX));
     update();
+}
 
+void BasicOpenGLView::newStack()
+{
+    QMatrix3x3 ident = QMatrix3x3();
+    ident.setToIdentity();
+    stack.push(ident);
 }
 
 void BasicOpenGLView::pushMatrix(QMatrix3x3 newMatrix)
 {
-    stack.push(newMatrix);
+    stack.push(newMatrix*stack.top());
+
+    qDebug() << stack.top();
+
+
 }
+
+
+
+
+
+
+
+
+

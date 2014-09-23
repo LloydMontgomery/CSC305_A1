@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>826</width>
-    <height>665</height>
+    <width>977</width>
+    <height>688</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,35 @@
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="2">
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="maximumSize">
+         <size>
+          <width>175</width>
+          <height>590</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Matrix Stack</string>
+        </property>
+        <widget class="QTextBrowser" name="textBrowser">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>151</width>
+           <height>521</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+        </widget>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="BasicOpenGLView" name="oglwidget" native="true">
         <property name="sizePolicy">
@@ -25,36 +54,11 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(192, 193, 186);</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="maximumSize">
-         <size>
-          <width>571</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Zapfino</family>
-          <pointsize>20</pointsize>
-          <weight>50</weight>
-          <italic>true</italic>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font: italic 20pt &quot;Zapfino&quot;;</string>
-        </property>
-        <property name="text">
-         <string>Test of rubber band line from mouse input.</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -68,6 +72,9 @@
         </property>
         <property name="title">
          <string>Controls</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
         </property>
         <widget class="QPushButton" name="pushButton">
          <property name="geometry">
@@ -139,6 +146,15 @@
             <pointsize>12</pointsize>
            </font>
           </property>
+          <property name="text">
+           <string>1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="placeholderText">
+           <string notr="true"/>
+          </property>
          </widget>
          <widget class="QLineEdit" name="m12">
           <property name="geometry">
@@ -153,6 +169,12 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
          <widget class="QLineEdit" name="m13">
@@ -169,6 +191,12 @@
             <pointsize>12</pointsize>
            </font>
           </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
          <widget class="QLineEdit" name="m21">
           <property name="geometry">
@@ -183,6 +211,12 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
          <widget class="QLineEdit" name="m22">
@@ -199,6 +233,12 @@
             <pointsize>12</pointsize>
            </font>
           </property>
+          <property name="text">
+           <string>1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
          <widget class="QLineEdit" name="m23">
           <property name="geometry">
@@ -213,6 +253,12 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
          <widget class="QLineEdit" name="m31">
@@ -229,6 +275,12 @@
             <pointsize>12</pointsize>
            </font>
           </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
          <widget class="QLineEdit" name="m32">
           <property name="geometry">
@@ -243,6 +295,12 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
          <widget class="QLineEdit" name="m33">
@@ -259,28 +317,11 @@
             <pointsize>12</pointsize>
            </font>
           </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="geometry">
-          <rect>
-           <x>5</x>
-           <y>370</y>
-           <width>165</width>
-           <height>211</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>GroupBox</string>
-         </property>
-         <widget class="QTextBrowser" name="textBrowser">
-          <property name="geometry">
-           <rect>
-            <x>8</x>
-            <y>27</y>
-            <width>151</width>
-            <height>171</height>
-           </rect>
+          <property name="text">
+           <string>1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </widget>
@@ -297,6 +338,34 @@
           <string>Push Matrix</string>
          </property>
         </widget>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="maximumSize">
+         <size>
+          <width>571</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Zapfino</family>
+          <pointsize>20</pointsize>
+          <weight>50</weight>
+          <italic>true</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: italic 20pt &quot;Zapfino&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Test of rubber band line from mouse input.</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </item>
      </layout>
@@ -322,6 +391,7 @@
    <container>1</container>
    <slots>
     <slot>newPoly()</slot>
+    <slot>clearme()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -372,6 +442,22 @@
     <hint type="destinationlabel">
      <x>612</x>
      <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>oglwidget</receiver>
+   <slot>clearme()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>644</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>576</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>

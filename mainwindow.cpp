@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <string>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -40,14 +42,34 @@ void MainWindow::pushMatrix()
 {
     QMatrix3x3 temp = QMatrix3x3();
     temp.operator()(0,0) = ui->m11->text().toDouble();
-    temp.operator()(0,1) = ui->m11->text().toDouble();
-    temp.operator()(0,2) = ui->m11->text().toDouble();
-    temp.operator()(1,0) = ui->m11->text().toDouble();
-    temp.operator()(1,1) = ui->m11->text().toDouble();
-    temp.operator()(1,2) = ui->m11->text().toDouble();
-    temp.operator()(2,0) = ui->m11->text().toDouble();
-    temp.operator()(2,1) = ui->m11->text().toDouble();
-    temp.operator()(2,2) = ui->m11->text().toDouble();
+    temp.operator()(0,1) = ui->m12->text().toDouble();
+    temp.operator()(0,2) = ui->m13->text().toDouble();
+    temp.operator()(1,0) = ui->m21->text().toDouble();
+    temp.operator()(1,1) = ui->m22->text().toDouble();
+    temp.operator()(1,2) = ui->m23->text().toDouble();
+    temp.operator()(2,0) = ui->m31->text().toDouble();
+    temp.operator()(2,1) = ui->m32->text().toDouble();
+    temp.operator()(2,2) = ui->m33->text().toDouble();
 
+    //ui->textBrowser->setText("Hello");
     ui->oglwidget->pushMatrix(temp);
+
+    //printMatrices();
+
+
 }
+
+void MainWindow::printMatrices()
+{
+
+//    qDebug() << ui->oglwidget->stack.top();
+
+//    std::string sb = "Hello";
+//    std::cout << sb;
+
+//    ui->textBrowser->setText(sb);
+
+}
+
+
+

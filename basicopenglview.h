@@ -38,15 +38,14 @@ public:
                 pass this one on to the superclass constructor
       */
     explicit BasicOpenGLView(QWidget *parent = 0);
-    void clearme();
     void pushMatrix(QMatrix3x3);
-
-
+    QStack<QMatrix3x3> stack;
 
 signals:
 
 public slots:
     void newPoly();
+    void clearme();
 
 protected:
 
@@ -109,7 +108,9 @@ private:
     QVector< QVector<QVector3D> > polygons;
     QVector< QVector<double> > polyColors;
     QVector3D * csv;  // The current selected vertex.  Set to null if none selected
-    QStack<QMatrix3x3> stack;
+
+    /* Additional Functions */
+    void newStack();
 
 };
 

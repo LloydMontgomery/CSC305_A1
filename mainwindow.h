@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QGenericMatrix>
+#include <string>       // std::string
+#include <iostream>     // std::cout
+
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +35,8 @@ private:
 
     QTimer * animationTimer;        /**< this is the only member so far added to the auto-generated mainwindow class. We use the timer for regular OpenGL redraws. */
     bool animateon;
+    void printMatrices();
+
 
 };
 
