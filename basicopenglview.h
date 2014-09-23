@@ -9,6 +9,7 @@
 #include <QVector2D>
 #include <QVector3D>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAXPTS 300
 #define RADIUS 8  // circle around a point for selection

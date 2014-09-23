@@ -10,7 +10,7 @@ BasicOpenGLView::BasicOpenGLView(QWidget *parent)
     lastpt = -1;
     csv = NULL;  // represents an unselected vertex
     //polygons = QVector< QVector<QVector3D> >();
-
+    srand (time(NULL));
     newPoly();
 }
 
@@ -88,14 +88,12 @@ void BasicOpenGLView::movePoint(int x, int y)
 
 void BasicOpenGLView::addPoint(int x, int y)
 {
-    int i, j;
+    int i;
     for (i = 0; i < polygons.size(); i++) {
-        for (j = 0; j < polygons.at(i).size(); j++) {
-            if (   ( (polygons.at(i).at(j).x()-RADIUS) < x && (polygons.at(i).at(j).x()+RADIUS) > x )
-                && ( (polygons.at(i).at(j).y()-RADIUS) < y && (polygons.at(i).at(j).y()+RADIUS) > y ) ) {
-                newPoly();
-                return;
-            }
+        if ( polygons.at(i).size() > 0 && ( (polygons.at(i).at(0).x()-RADIUS) < x && (polygons.at(i).at(0).x()+RADIUS) > x )
+                                       && ( (polygons.at(i).at(0).y()-RADIUS) < y && (polygons.at(i).at(0).y()+RADIUS) > y ) ) {
+            newPoly();
+            return;
         }
     }
     polygons.last().append(QVector3D(x, y, 1));
@@ -167,7 +165,7 @@ void BasicOpenGLView::drawFigure()
             x0 = firstX;
             y0 = firstY;
 
-            glColor3f(1.0f, 0.0f, 1.0f);
+            glColor3f(polyColors[i][0], polyColors[i][1], polyColors[i][2]);
             for (j = 1; j < polygons.at(i).size(); j++) {
                 x1 = polygons.at(i).at(j).x();
                 y1 = polygons.at(i).at(j).y();
@@ -194,4 +192,5 @@ void BasicOpenGLView::newPoly()
     polyColors.last()[0] = ((double) rand() / (RAND_MAX));
     polyColors.last()[1] = ((double) rand() / (RAND_MAX));
     polyColors.last()[2] = ((double) rand() / (RAND_MAX));
+    update();
 }
