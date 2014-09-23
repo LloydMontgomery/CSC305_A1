@@ -12,7 +12,6 @@ BasicOpenGLView::BasicOpenGLView(QWidget *parent)
     //polygons = QVector< QVector<QVector3D> >();
     srand (time(NULL));
     newPoly();
-
 }
 
 void BasicOpenGLView::initializeGL()
