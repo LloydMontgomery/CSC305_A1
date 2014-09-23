@@ -193,4 +193,5 @@ void BasicOpenGLView::newPoly()
     polyColors.last()[1] = ((double) rand() / (RAND_MAX));
     polyColors.last()[2] = ((double) rand() / (RAND_MAX));
     update();
+
 }
