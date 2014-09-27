@@ -63,7 +63,7 @@ void MainWindow::pushMatrix()
 //    ui->m32->setText("0");
 //    ui->m33->setText("1");
 
-    //printMatrices();
+    printMatrices();
 
 
 }
@@ -76,7 +76,9 @@ void MainWindow::printMatrices()
 //    std::string sb = "Hello";
 //    std::cout << sb;
 
-//    ui->textBrowser->setText(sb);
+    ui->textBrowser->setText(
+                ""
+                );
 
 }
 
