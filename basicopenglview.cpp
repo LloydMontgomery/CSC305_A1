@@ -251,11 +251,3 @@ void BasicOpenGLView::popMatrix() {
     update();
 }
 
-
-
-
-
-
-
-
-
