@@ -18,7 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
     animateon=false;
     connect(animationTimer, SIGNAL(timeout()), this, SLOT(drawOpenGL()));
     // we start the timer with a timeout interval of 20ms
-//    animationTimer->start(20);
+    //    animationTimer->start(20);
+
+    ss = "";
+    addToSS();
 }
 
 void MainWindow::drawOpenGL()
@@ -52,34 +55,77 @@ void MainWindow::pushMatrix()
     temp.operator()(2,2) = ui->m33->text().toDouble();
 
     ui->oglwidget->pushMatrix(temp);
+    addToSS();
 
-//    ui->m11->setText("1");
-//    ui->m12->setText("0");
-//    ui->m13->setText("0");
-//    ui->m21->setText("0");
-//    ui->m22->setText("1");
-//    ui->m23->setText("0");
-//    ui->m31->setText("0");
-//    ui->m32->setText("0");
-//    ui->m33->setText("1");
+    ui->m11->setText("1");
+    ui->m12->setText("0");
+    ui->m13->setText("0");
+    ui->m21->setText("0");
+    ui->m22->setText("1");
+    ui->m23->setText("0");
+    ui->m31->setText("0");
+    ui->m32->setText("0");
+    ui->m33->setText("1");
+}
 
-    printMatrices();
+void MainWindow::addToSS() {
 
+    int i, j;
+    QMatrix3x3 stackTop = ui->oglwidget->stack.top();
+    QString tempString = ss;  //save the old string to append later
+
+    // Find the max length of the elements to format properly
+    int maxLength = 0;
+    int spaces[3][3];
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            spaces[i][j] = (QString::number(stackTop.operator()(i,j))).length();
+            if ((QString::number(stackTop.operator()(i,j))).contains("."))  // Format for the '.'
+                spaces[i][j] -= 1;
+            if ((QString::number(stackTop.operator()(i,j))).length() > maxLength)
+                maxLength = (QString::number(stackTop.operator()(i,j))).length();
+        }
+    }
+
+    ss = "";
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            qDebug() << spaces[i][j];
+            // Do not try to understand the next line.  Crazy formatting because \t in C++ sucks
+            ss += "| " + (QString::number(stackTop.operator()(i,j))).leftJustified(spaces[i][j] + ((maxLength - spaces[i][j]) * 2), ' ') + " ";
+        }
+        ss += "| \n";
+    }
+    ss += "\n";
+
+    ss += tempString;
+    ui->textBrowser->setText(ss);
+}
+
+void MainWindow::popMatrix() {
+    ui->oglwidget->popMatrix();
+    ss.remove(0, (ss.indexOf("\n\n") + 2));
+    if (ss.isEmpty()) {  // Put the Identity back on
+        ui->oglwidget->newStack();
+        addToSS();
+    }
+    else {
+        ui->textBrowser->setText(ss);
+    }
+}
+
+void MainWindow::clearMatrix() {
 
 }
 
-void MainWindow::printMatrices()
-{
+void MainWindow::printMatrices() {
 
-//    qDebug() << ui->oglwidget->stack.top();
 
-//    std::string sb = "Hello";
-//    std::cout << sb;
+    //ui->textBrowser->setText(ss);
 
-    ui->textBrowser->setText(
-                ""
-                );
 
+    //"| 1 | 0 | 0 |\n| 0 | 1 | 0 |\n| 0 | 0 | 1 |\n\n| 1 | 0 | 0 |\n| 0 | 1 | 0 |\n| 0 | 0 | 1 |\n"
+    //"------\n| 1 | 0 | 0 |\n------\n| 0 | 1 | 0 |\n------\n| 0 | 0 | 1 |\n"
 }
 
 

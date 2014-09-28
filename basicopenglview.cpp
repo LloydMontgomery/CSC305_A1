@@ -203,8 +203,7 @@ QVector3D BasicOpenGLView::vectorTransform(QVector3D v)
     return transformed;
 }
 
-void BasicOpenGLView::newPoly()
-{
+void BasicOpenGLView::newPoly() {
     polygons.append(QVector<QVector3D>());
     polyColors.append(QVector<double>(3));
     polyColors.last()[0] = ((double) rand() / (RAND_MAX));
@@ -213,22 +212,21 @@ void BasicOpenGLView::newPoly()
     update();
 }
 
-void BasicOpenGLView::newStack()
-{
+void BasicOpenGLView::newStack() {
     QMatrix3x3 ident = QMatrix3x3();
     ident.setToIdentity();
     stack.push(ident);
 }
 
-void BasicOpenGLView::pushMatrix(QMatrix3x3 newMatrix)
-{
+void BasicOpenGLView::pushMatrix(QMatrix3x3 newMatrix) {
     stack.push(newMatrix*stack.top());
-
     qDebug() << stack.top();
-
     update();
+}
 
-
+void BasicOpenGLView::popMatrix() {
+    stack.pop();
+    update();
 }
 
 

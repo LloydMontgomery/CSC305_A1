@@ -6,6 +6,7 @@
 #include <QGenericMatrix>
 #include <string>       // std::string
 #include <iostream>     // std::cout
+#include <QString>
 
 
 namespace Ui {
@@ -29,13 +30,22 @@ public slots:
     void drawOpenGL();
     void animate();
     void pushMatrix();
+    void popMatrix();
+    void clearMatrix();
     
 private:
     Ui::MainWindow *ui;
 
     QTimer * animationTimer;        /**< this is the only member so far added to the auto-generated mainwindow class. We use the timer for regular OpenGL redraws. */
     bool animateon;
+
+    /* Additional Variables */
+    QString ss;  // stack string
+
+    /* Additional Functions */
     void printMatrices();
+    void addToSS();
+
 
 
 };

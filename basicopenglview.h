@@ -39,6 +39,8 @@ public:
       */
     explicit BasicOpenGLView(QWidget *parent = 0);
     void pushMatrix(QMatrix3x3);
+    void popMatrix();
+    void newStack();
     QStack<QMatrix3x3> stack;
 
 signals:
@@ -110,7 +112,6 @@ private:
     QVector3D * csv;  // The current selected vertex.  Set to null if none selected
 
     /* Additional Functions */
-    void newStack();
     QVector3D vectorTransform(QVector3D v);
 
 };
