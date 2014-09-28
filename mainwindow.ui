@@ -37,9 +37,9 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>60</y>
+           <y>80</y>
            <width>200</width>
-           <height>521</height>
+           <height>501</height>
           </rect>
          </property>
          <property name="maximumSize">
@@ -64,7 +64,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>25</y>
+           <y>50</y>
            <width>200</width>
            <height>32</height>
           </rect>
@@ -77,6 +77,19 @@
          </property>
          <property name="text">
           <string>Pop Matrix</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>24</y>
+           <width>200</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Clear Stack</string>
          </property>
         </widget>
        </widget>
@@ -95,6 +108,19 @@
         <property name="styleSheet">
          <string notr="true">background-color: rgb(192, 193, 186);</string>
         </property>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>30</y>
+           <width>165</width>
+           <height>80</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>GroupBox</string>
+         </property>
+        </widget>
        </widget>
       </item>
       <item row="1" column="1">
@@ -121,33 +147,33 @@
           <rect>
            <x>0</x>
            <y>30</y>
-           <width>114</width>
+           <width>171</width>
            <height>32</height>
           </rect>
          </property>
          <property name="text">
-          <string>quit</string>
+          <string>Quit Application</string>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_2">
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>70</y>
-           <width>114</width>
+           <y>57</y>
+           <width>171</width>
            <height>32</height>
           </rect>
          </property>
          <property name="text">
-          <string>clear</string>
+          <string>Clear Polygons</string>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_3">
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>110</y>
-           <width>114</width>
+           <y>84</y>
+           <width>171</width>
            <height>32</height>
           </rect>
          </property>
@@ -159,9 +185,9 @@
          <property name="geometry">
           <rect>
            <x>5</x>
-           <y>150</y>
+           <y>210</y>
            <width>165</width>
-           <height>131</height>
+           <height>121</height>
           </rect>
          </property>
          <property name="font">
@@ -175,10 +201,10 @@
          <widget class="QLineEdit" name="m11">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>40</y>
-            <width>40</width>
-            <height>21</height>
+            <x>8</x>
+            <y>30</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -190,7 +216,7 @@
            <string>1</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -202,10 +228,10 @@
          <widget class="QLineEdit" name="m12">
           <property name="geometry">
            <rect>
-            <x>60</x>
-            <y>40</y>
-            <width>40</width>
-            <height>21</height>
+            <x>58</x>
+            <y>30</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -217,7 +243,7 @@
            <string>0</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -226,10 +252,10 @@
          <widget class="QLineEdit" name="m13">
           <property name="geometry">
            <rect>
-            <x>110</x>
-            <y>40</y>
-            <width>40</width>
-            <height>21</height>
+            <x>108</x>
+            <y>30</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -241,7 +267,7 @@
            <string>0</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -250,10 +276,10 @@
          <widget class="QLineEdit" name="m21">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>70</y>
-            <width>40</width>
-            <height>21</height>
+            <x>8</x>
+            <y>60</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -265,7 +291,7 @@
            <string>0</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -274,10 +300,10 @@
          <widget class="QLineEdit" name="m22">
           <property name="geometry">
            <rect>
-            <x>60</x>
-            <y>70</y>
-            <width>40</width>
-            <height>21</height>
+            <x>58</x>
+            <y>60</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -289,7 +315,7 @@
            <string>1</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -298,10 +324,10 @@
          <widget class="QLineEdit" name="m23">
           <property name="geometry">
            <rect>
-            <x>110</x>
-            <y>70</y>
-            <width>40</width>
-            <height>21</height>
+            <x>108</x>
+            <y>60</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -313,7 +339,7 @@
            <string>0</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -322,10 +348,10 @@
          <widget class="QLineEdit" name="m31">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>100</y>
-            <width>40</width>
-            <height>21</height>
+            <x>8</x>
+            <y>90</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -337,7 +363,7 @@
            <string>0</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -346,10 +372,10 @@
          <widget class="QLineEdit" name="m32">
           <property name="geometry">
            <rect>
-            <x>60</x>
-            <y>100</y>
-            <width>40</width>
-            <height>21</height>
+            <x>58</x>
+            <y>90</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -361,7 +387,7 @@
            <string>0</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -370,10 +396,10 @@
          <widget class="QLineEdit" name="m33">
           <property name="geometry">
            <rect>
-            <x>110</x>
-            <y>100</y>
-            <width>40</width>
-            <height>21</height>
+            <x>108</x>
+            <y>90</y>
+            <width>46</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -385,7 +411,7 @@
            <string>1</string>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -395,14 +421,30 @@
         <widget class="QPushButton" name="pushButton_4">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>290</y>
-           <width>114</width>
+           <x>0</x>
+           <y>340</y>
+           <width>171</width>
            <height>32</height>
           </rect>
          </property>
          <property name="text">
           <string>Push Matrix</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="checkBox">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>380</y>
+           <width>151</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Apply Matrix Stack</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </widget>
@@ -487,8 +529,8 @@
    <slot>newPoly()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>643</x>
-     <y>186</y>
+     <x>631</x>
+     <y>160</y>
     </hint>
     <hint type="destinationlabel">
      <x>548</x>
@@ -503,28 +545,12 @@
    <slot>pushMatrix()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>688</x>
-     <y>362</y>
+     <x>646</x>
+     <y>319</y>
     </hint>
     <hint type="destinationlabel">
      <x>612</x>
      <y>363</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_2</sender>
-   <signal>clicked()</signal>
-   <receiver>oglwidget</receiver>
-   <slot>clearme()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>644</x>
-     <y>152</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>576</x>
-     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -544,10 +570,44 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>toggleMatrices(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>706</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>762</x>
+     <y>43</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clearStack()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>656</x>
+     <y>130</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>604</x>
+     <y>41</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>animate()</slot>
   <slot>pushMatrix()</slot>
   <slot>popMatrix()</slot>
+  <slot>toggleMatrices(bool)</slot>
+  <slot>clearStack()</slot>
  </slots>
 </ui>

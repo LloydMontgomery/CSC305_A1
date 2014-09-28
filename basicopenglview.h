@@ -42,12 +42,13 @@ public:
     void popMatrix();
     void newStack();
     QStack<QMatrix3x3> stack;
+    bool transform;
 
 signals:
 
 public slots:
     void newPoly();
-    void clearme();
+    void clearStack();
 
 protected:
 
@@ -102,7 +103,7 @@ private:
     void select(int x, int y);
 
     bool  drawon, permittransform;
-    void drawFigure();
+    void drawFigure(bool transform);
     void drawCircle(double radius, double xcen, double ycen, bool line);
     void drawLine(double x0, double y0, double x1, double y1 );
 

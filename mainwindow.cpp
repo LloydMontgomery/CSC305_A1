@@ -75,24 +75,23 @@ void MainWindow::addToSS() {
     QString tempString = ss;  //save the old string to append later
 
     // Find the max length of the elements to format properly
-    int maxLength = 0;
+    int maxLength[3] = {0, 0, 0};
     int spaces[3][3];
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             spaces[i][j] = (QString::number(stackTop.operator()(i,j))).length();
             if ((QString::number(stackTop.operator()(i,j))).contains("."))  // Format for the '.'
                 spaces[i][j] -= 1;
-            if ((QString::number(stackTop.operator()(i,j))).length() > maxLength)
-                maxLength = (QString::number(stackTop.operator()(i,j))).length();
+            if ((QString::number(stackTop.operator()(i,j))).length() > maxLength[j])
+                maxLength[j] = (QString::number(stackTop.operator()(i,j))).length();
         }
     }
 
     ss = "";
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
-            qDebug() << spaces[i][j];
             // Do not try to understand the next line.  Crazy formatting because \t in C++ sucks
-            ss += "| " + (QString::number(stackTop.operator()(i,j))).leftJustified(spaces[i][j] + ((maxLength - spaces[i][j]) * 2), ' ') + " ";
+            ss += "| " + (QString::number(stackTop.operator()(i,j))).leftJustified(spaces[i][j] + ((maxLength[j] - spaces[i][j]) * 2), ' ', true) + " ";
         }
         ss += "| \n";
     }
@@ -114,18 +113,15 @@ void MainWindow::popMatrix() {
     }
 }
 
-void MainWindow::clearMatrix() {
-
+void MainWindow::clearStack() {
+    ss = "";
+    ui->oglwidget->clearStack();
+    addToSS();
 }
 
-void MainWindow::printMatrices() {
-
-
-    //ui->textBrowser->setText(ss);
-
-
-    //"| 1 | 0 | 0 |\n| 0 | 1 | 0 |\n| 0 | 0 | 1 |\n\n| 1 | 0 | 0 |\n| 0 | 1 | 0 |\n| 0 | 0 | 1 |\n"
-    //"------\n| 1 | 0 | 0 |\n------\n| 0 | 1 | 0 |\n------\n| 0 | 0 | 1 |\n"
+void MainWindow::toggleMatrices(bool toggled) {
+    ui->oglwidget->transform = toggled;
+    ui->oglwidget->update();
 }
 
 

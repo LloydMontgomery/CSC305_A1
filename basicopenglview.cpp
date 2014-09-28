@@ -14,6 +14,7 @@ BasicOpenGLView::BasicOpenGLView(QWidget *parent)
     srand (time(NULL));  // Set the random seed
     newPoly();
     newStack();
+    transform = true;
 }
 
 void BasicOpenGLView::initializeGL()
@@ -42,7 +43,7 @@ void BasicOpenGLView::paintGL()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    drawFigure();
+    drawFigure(transform);
 
     //QGLWidget::swapBuffers();
 }
@@ -114,7 +115,7 @@ void BasicOpenGLView::select(int x, int y)
     }
 }
 
-void BasicOpenGLView::clearme()
+void BasicOpenGLView::clearStack()
 {
     //for (int i = 0; i < polygons.size(); i++)
     //    polygons.at(i).clear();
@@ -152,7 +153,7 @@ void BasicOpenGLView::drawLine(double x0, double y0, double x1, double y1 )
     glEnd();
 }
 
-void BasicOpenGLView::drawFigure()
+void BasicOpenGLView::drawFigure(bool transform)
 {
     // draw a line between each pair of points
     int x0,x1,y0,y1,i,j, firstX, firstY;
@@ -166,18 +167,33 @@ void BasicOpenGLView::drawFigure()
             ;
         else
         {
-            transformed = vectorTransform(polygons.at(i).at(0));
-            firstX = transformed.x();
-            firstY = transformed.y();
-            x0 = firstX;
-            y0 = firstY;
+            if (transform) {
+                transformed = vectorTransform(polygons.at(i).at(0));
+                firstX = transformed.x();
+                firstY = transformed.y();
+                x0 = firstX;
+                y0 = firstY;
 
-            for (j = 1; j < polygons.at(i).size(); j++) {
-                transformed = vectorTransform(polygons.at(i).at(j));
-                x1 = transformed.x();
-                y1 = transformed.y();
-                drawLine(x0, y0, x1, y1);
-                x0 = x1;  y0 = y1;
+                for (j = 1; j < polygons.at(i).size(); j++) {
+                    transformed = vectorTransform(polygons.at(i).at(j));
+                    x1 = transformed.x();
+                    y1 = transformed.y();
+                    drawLine(x0, y0, x1, y1);
+                    x0 = x1;  y0 = y1;
+                }
+            }
+            else {
+                firstX = polygons.at(i).at(0).x();
+                firstY = polygons.at(i).at(0).y();
+                x0 = firstX;
+                y0 = firstY;
+
+                for (j = 1; j < polygons.at(i).size(); j++) {
+                    x1 = polygons.at(i).at(j).x();
+                    y1 = polygons.at(i).at(j).y();
+                    drawLine(x0, y0, x1, y1);
+                    x0 = x1;  y0 = y1;
+                }
             }
 
             // If this is a closed polygon, draw the last line
@@ -185,10 +201,16 @@ void BasicOpenGLView::drawFigure()
                 drawLine(x1, y1, firstX, firstY);
         }
 
-
-        for (j = 0; j < polygons.at(i).size(); j++){
-            transformed = vectorTransform(polygons.at(i).at(j));
-            drawCircle( (double)RADIUS, transformed.x(), transformed.y(), false);
+        if (transform) {
+            for (j = 0; j < polygons.at(i).size(); j++){
+                transformed = vectorTransform(polygons.at(i).at(j));
+                drawCircle( (double)RADIUS, transformed.x(), transformed.y(), false);
+            }
+        }
+        else {
+            for (j = 0; j < polygons.at(i).size(); j++){
+                drawCircle( (double)RADIUS, polygons.at(i).at(j).x(), polygons.at(i).at(j).y(), false);
+            }
         }
     }
 }

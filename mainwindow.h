@@ -31,7 +31,8 @@ public slots:
     void animate();
     void pushMatrix();
     void popMatrix();
-    void clearMatrix();
+    void clearStack();
+    void toggleMatrices(bool toggled);
     
 private:
     Ui::MainWindow *ui;
@@ -43,7 +44,6 @@ private:
     QString ss;  // stack string
 
     /* Additional Functions */
-    void printMatrices();
     void addToSS();
 
 
