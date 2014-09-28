@@ -6,188 +6,142 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1042</width>
-    <height>688</height>
+    <width>850</width>
+    <height>771</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="2">
-       <widget class="QGroupBox" name="groupBox_4">
-        <property name="maximumSize">
-         <size>
-          <width>220</width>
-          <height>590</height>
-         </size>
-        </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QGroupBox" name="groupBox">
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <family>Zapfino</family>
          </font>
         </property>
         <property name="title">
-         <string>Matrix Stack</string>
+         <string>POLYGON CREATOR AND MANIPULATOR</string>
         </property>
-        <widget class="QTextBrowser" name="textBrowser">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>80</y>
-           <width>200</width>
-           <height>501</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_5">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>50</y>
-           <width>200</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Pop Matrix</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_6">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>24</y>
-           <width>200</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Clear Stack</string>
-         </property>
-        </widget>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="BasicOpenGLView" name="oglwidget" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>650</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(192, 193, 186);</string>
+           </property>
+           <zorder>groupBox_4</zorder>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="BasicOpenGLView" name="oglwidget" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="enabled">
+         <bool>true</bool>
         </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+        <property name="maximumSize">
+         <size>
+          <width>220</width>
+          <height>16777215</height>
+         </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(192, 193, 186);</string>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
         </property>
         <widget class="QGroupBox" name="groupBox_3">
          <property name="geometry">
           <rect>
-           <x>400</x>
-           <y>30</y>
-           <width>165</width>
-           <height>80</height>
+           <x>10</x>
+           <y>33</y>
+           <width>200</width>
+           <height>100</height>
           </rect>
          </property>
          <property name="title">
-          <string>GroupBox</string>
+          <string/>
          </property>
-        </widget>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QGroupBox" name="groupBox">
-        <property name="maximumSize">
-         <size>
-          <width>175</width>
-          <height>590</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="title">
-         <string>Controls</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-        </property>
-        <widget class="QPushButton" name="pushButton">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>30</y>
-           <width>171</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Quit Application</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>57</y>
-           <width>171</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Clear Polygons</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>84</y>
-           <width>171</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>New Polygon</string>
-         </property>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="geometry">
+           <rect>
+            <x>5</x>
+            <y>5</y>
+            <width>190</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>New Polygon</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="geometry">
+           <rect>
+            <x>5</x>
+            <y>35</y>
+            <width>190</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Clear Polygons</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton">
+          <property name="geometry">
+           <rect>
+            <x>5</x>
+            <y>65</y>
+            <width>190</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Quit Application</string>
+          </property>
+         </widget>
+         <zorder>pushButton_3</zorder>
+         <zorder>pushButton_2</zorder>
+         <zorder>pushButton</zorder>
+         <zorder>groupBox_2</zorder>
+         <zorder>groupBox_2</zorder>
+         <zorder>groupBox_2</zorder>
         </widget>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="geometry">
           <rect>
-           <x>5</x>
-           <y>210</y>
-           <width>165</width>
-           <height>121</height>
+           <x>10</x>
+           <y>143</y>
+           <width>200</width>
+           <height>145</height>
           </rect>
          </property>
          <property name="font">
@@ -196,14 +150,14 @@
           </font>
          </property>
          <property name="title">
-          <string>    Input Matrix</string>
+          <string/>
          </property>
          <widget class="QLineEdit" name="m11">
           <property name="geometry">
            <rect>
-            <x>8</x>
-            <y>30</y>
-            <width>46</width>
+            <x>10</x>
+            <y>10</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -228,9 +182,9 @@
          <widget class="QLineEdit" name="m12">
           <property name="geometry">
            <rect>
-            <x>58</x>
-            <y>30</y>
-            <width>46</width>
+            <x>72</x>
+            <y>10</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -252,9 +206,9 @@
          <widget class="QLineEdit" name="m13">
           <property name="geometry">
            <rect>
-            <x>108</x>
-            <y>30</y>
-            <width>46</width>
+            <x>134</x>
+            <y>10</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -276,9 +230,9 @@
          <widget class="QLineEdit" name="m21">
           <property name="geometry">
            <rect>
-            <x>8</x>
-            <y>60</y>
-            <width>46</width>
+            <x>10</x>
+            <y>36</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -300,9 +254,9 @@
          <widget class="QLineEdit" name="m22">
           <property name="geometry">
            <rect>
-            <x>58</x>
-            <y>60</y>
-            <width>46</width>
+            <x>72</x>
+            <y>36</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -324,9 +278,9 @@
          <widget class="QLineEdit" name="m23">
           <property name="geometry">
            <rect>
-            <x>108</x>
-            <y>60</y>
-            <width>46</width>
+            <x>134</x>
+            <y>36</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -348,9 +302,9 @@
          <widget class="QLineEdit" name="m31">
           <property name="geometry">
            <rect>
-            <x>8</x>
-            <y>90</y>
-            <width>46</width>
+            <x>10</x>
+            <y>62</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -372,9 +326,9 @@
          <widget class="QLineEdit" name="m32">
           <property name="geometry">
            <rect>
-            <x>58</x>
-            <y>90</y>
-            <width>46</width>
+            <x>72</x>
+            <y>62</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -396,9 +350,9 @@
          <widget class="QLineEdit" name="m33">
           <property name="geometry">
            <rect>
-            <x>108</x>
-            <y>90</y>
-            <width>46</width>
+            <x>134</x>
+            <y>62</y>
+            <width>56</width>
             <height>20</height>
            </rect>
           </property>
@@ -417,64 +371,122 @@
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
+         <widget class="QPushButton" name="pushButton_4">
+          <property name="geometry">
+           <rect>
+            <x>5</x>
+            <y>84</y>
+            <width>190</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Push Matrix</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="geometry">
+           <rect>
+            <x>33</x>
+            <y>115</y>
+            <width>141</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Apply Matrix Stack</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
         </widget>
-        <widget class="QPushButton" name="pushButton_4">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>340</y>
-           <width>171</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Push Matrix</string>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QGroupBox" name="groupBox_5">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>380</y>
-           <width>151</width>
-           <height>20</height>
+           <y>298</y>
+           <width>200</width>
+           <height>401</height>
           </rect>
          </property>
-         <property name="text">
-          <string>Apply Matrix Stack</string>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
-         <property name="checked">
-          <bool>true</bool>
+         <property name="title">
+          <string/>
          </property>
+         <widget class="QTextBrowser" name="textBrowser">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>39</y>
+            <width>180</width>
+            <height>325</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_5">
+          <property name="geometry">
+           <rect>
+            <x>5</x>
+            <y>5</y>
+            <width>190</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Pop Matrix</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_6">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>368</y>
+            <width>200</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Clear Stack</string>
+          </property>
+         </widget>
+         <zorder>textBrowser</zorder>
+         <zorder>textBrowser</zorder>
+         <zorder>pushButton_5</zorder>
+         <zorder>pushButton_6</zorder>
         </widget>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="maximumSize">
-         <size>
-          <width>571</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Zapfino</family>
-          <pointsize>20</pointsize>
-          <weight>50</weight>
-          <italic>true</italic>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font: italic 20pt &quot;Zapfino&quot;;</string>
-        </property>
-        <property name="text">
-         <string>Test of rubber band line from mouse input.</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
+        <zorder>pushButton</zorder>
+        <zorder>groupBox_3</zorder>
+        <zorder>groupBox_2</zorder>
+        <zorder>groupBox_5</zorder>
        </widget>
       </item>
      </layout>
@@ -506,22 +518,6 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>631</x>
-     <y>106</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>670</x>
-     <y>49</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>pushButton_3</sender>
    <signal>clicked()</signal>
@@ -555,18 +551,34 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_5</sender>
+   <sender>pushButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>popMatrix()</slot>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>921</x>
-     <y>102</y>
+     <x>631</x>
+     <y>106</y>
     </hint>
     <hint type="destinationlabel">
-     <x>906</x>
-     <y>40</y>
+     <x>670</x>
+     <y>49</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clearStack()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>656</x>
+     <y>130</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>604</x>
+     <y>41</y>
     </hint>
    </hints>
   </connection>
@@ -587,18 +599,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_2</sender>
+   <sender>pushButton_5</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>clearStack()</slot>
+   <slot>popMatrix()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>656</x>
-     <y>130</y>
+     <x>921</x>
+     <y>102</y>
     </hint>
     <hint type="destinationlabel">
-     <x>604</x>
-     <y>41</y>
+     <x>906</x>
+     <y>40</y>
     </hint>
    </hints>
   </connection>
