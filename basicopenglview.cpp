@@ -115,7 +115,7 @@ void BasicOpenGLView::select(int x, int y)
     }
 }
 
-void BasicOpenGLView::clearStack()
+void BasicOpenGLView::clearPolys()
 {
     //for (int i = 0; i < polygons.size(); i++)
     //    polygons.at(i).clear();
@@ -123,6 +123,11 @@ void BasicOpenGLView::clearStack()
     polygons.clear();
     polyColors.clear();
     newPoly();
+    update();
+}
+
+void BasicOpenGLView::clearStack()
+{
     stack.clear();
     newStack();
 

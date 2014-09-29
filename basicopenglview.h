@@ -48,6 +48,7 @@ signals:
 
 public slots:
     void newPoly();
+    void clearPolys();
     void clearStack();
 
 protected:
