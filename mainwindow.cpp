@@ -5,23 +5,12 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    animationTimer(NULL)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    // we create a simple timer, with the widget being its parent
-    animationTimer = new QTimer(this);
-    // the timer will send a signal timeout at regular intervals.
-    // whenever this timeout signal occurs, we want it to call our drawOpenGL
-    // function
-    animateon=false;
-    connect(animationTimer, SIGNAL(timeout()), this, SLOT(drawOpenGL()));
-    // we start the timer with a timeout interval of 20ms
-    //    animationTimer->start(20);
-
-    ss = "";
-    addToSS();
+    ss = "";    // Initialize Stack String
+    addToSS();  // Add the identity to the Stack String
 }
 
 void MainWindow::drawOpenGL()
@@ -35,12 +24,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::animate()
-{
-    animateon = !animateon;
-    //ui->oglwidget->setanimate(animateon);
-}
-
+/*
+ * void MainWindow::pushMatrix()
+ *
+ * Pushes a new matrix onto the stack based on the values currently stored
+ * in the table entries in the UI.  Finishes by setting the table values
+ * back to the identity
+ *
+ */
 void MainWindow::pushMatrix()
 {
     QMatrix3x3 temp = QMatrix3x3();
@@ -68,8 +59,15 @@ void MainWindow::pushMatrix()
     ui->m33->setText("1");
 }
 
-void MainWindow::addToSS() {
-
+/*
+ * void MainWindow::addToSS()
+ *
+ * Adds the top of the matrix stack to the stack string so it can be displayed.
+ * Most of the code below is for formatting.
+ *
+ */
+void MainWindow::addToSS()
+{
     int i, j;
     QMatrix3x3 stackTop = ui->oglwidget->stack.top();
     QString tempString = ss;  //save the old string to append later
@@ -101,7 +99,15 @@ void MainWindow::addToSS() {
     ui->textBrowser->setText(ss);
 }
 
-void MainWindow::popMatrix() {
+/*
+ * void MainWindow::popMatrix()
+ *
+ * Pop off one matrix from the stack.  Take it off the actual stack as well as
+ * take if off the visual stack.
+ *
+ */
+void MainWindow::popMatrix()
+{
     ui->oglwidget->popMatrix();
     ss.remove(0, (ss.indexOf("\n\n") + 2));
     if (ss.isEmpty()) {  // Put the Identity back on
@@ -113,13 +119,15 @@ void MainWindow::popMatrix() {
     }
 }
 
-void MainWindow::clearStack() {
+void MainWindow::clearStack()
+{
     ss = "";
     ui->oglwidget->clearStack();
     addToSS();
 }
 
-void MainWindow::toggleMatrices(bool toggled) {
+void MainWindow::toggleMatrices(bool toggled)
+{
     ui->oglwidget->transform = toggled;
     ui->oglwidget->update();
 }

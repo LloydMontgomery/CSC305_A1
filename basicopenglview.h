@@ -6,7 +6,6 @@
 #include <QtDebug>
 #include "foundation.h"
 #include <QVector>
-#include <QVector2D>
 #include <QVector3D>
 #include <stdlib.h>
 #include <time.h>
@@ -114,7 +113,8 @@ private:
     QVector3D * csv;  // The current selected vertex.  Set to null if none selected
 
     /* Additional Functions */
-    QVector3D vectorTransform(QVector3D v);
+    QVector3D vectorTransform(QVector3D v, QMatrix3x3 m);
+    QMatrix3x3 invertMatrix(QMatrix3x3 orig);
 
 };
 

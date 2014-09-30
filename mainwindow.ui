@@ -51,7 +51,6 @@
            <property name="styleSheet">
             <string notr="true">background-color: rgb(192, 193, 186);</string>
            </property>
-           <zorder>groupBox_4</zorder>
           </widget>
          </item>
         </layout>
@@ -128,12 +127,6 @@
            <string>Quit Application</string>
           </property>
          </widget>
-         <zorder>pushButton_3</zorder>
-         <zorder>pushButton_2</zorder>
-         <zorder>pushButton</zorder>
-         <zorder>groupBox_2</zorder>
-         <zorder>groupBox_2</zorder>
-         <zorder>groupBox_2</zorder>
         </widget>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="geometry">
@@ -443,7 +436,7 @@
            <enum>Qt::RightToLeft</enum>
           </property>
           <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
+           <enum>Qt::ScrollBarAsNeeded</enum>
           </property>
          </widget>
          <widget class="QPushButton" name="pushButton_5">
@@ -468,9 +461,9 @@
          <widget class="QPushButton" name="pushButton_6">
           <property name="geometry">
            <rect>
-            <x>0</x>
+            <x>5</x>
             <y>368</y>
-            <width>200</width>
+            <width>190</width>
             <height>32</height>
            </rect>
           </property>
@@ -478,15 +471,7 @@
            <string>Clear Stack</string>
           </property>
          </widget>
-         <zorder>textBrowser</zorder>
-         <zorder>textBrowser</zorder>
-         <zorder>pushButton_5</zorder>
-         <zorder>pushButton_6</zorder>
         </widget>
-        <zorder>pushButton</zorder>
-        <zorder>groupBox_3</zorder>
-        <zorder>groupBox_2</zorder>
-        <zorder>groupBox_5</zorder>
        </widget>
       </item>
      </layout>
@@ -513,6 +498,7 @@
    <slots>
     <slot>newPoly()</slot>
     <slot>clearme()</slot>
+    <slot>clearPolys()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -525,8 +511,8 @@
    <slot>newPoly()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>631</x>
-     <y>160</y>
+     <x>821</x>
+     <y>109</y>
     </hint>
     <hint type="destinationlabel">
      <x>548</x>
@@ -541,8 +527,8 @@
    <slot>pushMatrix()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>646</x>
-     <y>319</y>
+     <x>821</x>
+     <y>298</y>
     </hint>
     <hint type="destinationlabel">
      <x>612</x>
@@ -557,28 +543,12 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>631</x>
-     <y>106</y>
+     <x>821</x>
+     <y>146</y>
     </hint>
     <hint type="destinationlabel">
      <x>670</x>
      <y>49</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_2</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>clearStack()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>656</x>
-     <y>130</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>604</x>
-     <y>41</y>
     </hint>
    </hints>
   </connection>
@@ -589,8 +559,8 @@
    <slot>toggleMatrices(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>706</x>
-     <y>378</y>
+     <x>800</x>
+     <y>317</y>
     </hint>
     <hint type="destinationlabel">
      <x>762</x>
@@ -605,12 +575,44 @@
    <slot>popMatrix()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>921</x>
-     <y>102</y>
+     <x>821</x>
+     <y>343</y>
     </hint>
     <hint type="destinationlabel">
      <x>906</x>
      <y>40</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clearStack()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>684</x>
+     <y>720</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>723</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>oglwidget</receiver>
+   <slot>clearPolys()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>703</x>
+     <y>121</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>571</x>
+     <y>139</y>
     </hint>
    </hints>
   </connection>

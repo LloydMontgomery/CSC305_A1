@@ -28,7 +28,6 @@ public slots:
       * with the timer
       */
     void drawOpenGL();
-    void animate();
     void pushMatrix();
     void popMatrix();
     void clearStack();
@@ -36,9 +35,6 @@ public slots:
     
 private:
     Ui::MainWindow *ui;
-
-    QTimer * animationTimer;        /**< this is the only member so far added to the auto-generated mainwindow class. We use the timer for regular OpenGL redraws. */
-    bool animateon;
 
     /* Additional Variables */
     QString ss;  // stack string
