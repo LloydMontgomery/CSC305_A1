@@ -1,6 +1,5 @@
 #include "basicopenglview.h"
 
-// this version demonstrates using the mouse to inout some points and draw lines between them
 
 BasicOpenGLView::BasicOpenGLView(QWidget *parent)
       : QGLWidget(parent), polygons(QVector< QVector<QVector3D> >())
@@ -30,7 +29,6 @@ void BasicOpenGLView::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0,GLdouble(width),0,GLdouble(height),-10.0,10.0);
-    //glOrtho(-(GLdouble)width/2.0, (GLdouble)width/2.0, -(GLdouble)height/2.0, (GLdouble)height/2.0, -10.0,10.0);
 
     glMatrixMode(GL_MODELVIEW);
 }
