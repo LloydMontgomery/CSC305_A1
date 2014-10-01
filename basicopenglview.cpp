@@ -39,8 +39,6 @@ void BasicOpenGLView::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     drawFigure(transform);
-
-    //QGLWidget::swapBuffers();
 }
 
 
