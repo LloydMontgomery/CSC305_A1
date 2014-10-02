@@ -123,9 +123,6 @@ void BasicOpenGLView::select(int x, int y)
 
 void BasicOpenGLView::clearPolys()
 {
-    //for (int i = 0; i < polygons.size(); i++)
-    //    polygons.at(i).clear();
-    // THIS IS NOT A DEEP CLEAR, FIX THIS
     polygons.clear();
     polyColors.clear();
     viewportScale.setToIdentity();
