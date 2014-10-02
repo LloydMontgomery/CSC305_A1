@@ -23,26 +23,45 @@ public:
 
 public slots:
 
-    /**
-      * we use this slot to trigger our widget's redraw function
-      * with the timer
-      */
-    void drawOpenGL();
+    /*
+     * void MainWindow::pushMatrix()
+     *
+     * Pushes a new matrix onto the stack based on the values currently stored
+     * in the table entries in the UI.  Finishes by setting the table values
+     * back to the identity
+     *
+     */
     void pushMatrix();
+
+    /*
+     * void MainWindow::popMatrix()
+     *
+     * Pop off one matrix from the stack.  Take it off the actual stack as well as
+     * take if off the visual stack.
+     *
+     */
     void popMatrix();
+
+    /*
+     * void MainWindow::clearStack()
+     *
+     * Clears the matrix transformation stack and clears the stack printing to the screen
+     *
+     */
     void clearStack();
-    void toggleMatrices(bool toggled);
     
 private:
     Ui::MainWindow *ui;
-
-    /* Additional Variables */
     QString ss;  // stack string
 
-    /* Additional Functions */
+    /*
+     * void MainWindow::addToSS()
+     *
+     * Adds the top of the matrix stack to the stack string so it can be displayed.
+     * Most of the code below is for formatting.
+     *
+     */
     void addToSS();
-
-
 
 };
 

@@ -82,7 +82,7 @@
            <x>10</x>
            <y>34</y>
            <width>200</width>
-           <height>121</height>
+           <height>95</height>
           </rect>
          </property>
          <property name="title">
@@ -118,7 +118,7 @@
           <property name="geometry">
            <rect>
             <x>5</x>
-            <y>87</y>
+            <y>60</y>
             <width>190</width>
             <height>32</height>
            </rect>
@@ -127,27 +127,14 @@
            <string>Quit Application</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="pushButton_7">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>60</y>
-            <width>190</width>
-            <height>32</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Scale Viewport</string>
-          </property>
-         </widget>
         </widget>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>162</y>
+           <y>136</y>
            <width>200</width>
-           <height>145</height>
+           <height>171</height>
           </rect>
          </property>
          <property name="font">
@@ -393,14 +380,30 @@
          <widget class="QCheckBox" name="checkBox">
           <property name="geometry">
            <rect>
-            <x>33</x>
-            <y>115</y>
+            <x>20</x>
+            <y>117</y>
             <width>141</width>
             <height>20</height>
            </rect>
           </property>
           <property name="text">
            <string>Apply Matrix Stack</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>140</y>
+            <width>181</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Apply Viewport Scaling</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -512,7 +515,9 @@
     <slot>newPoly()</slot>
     <slot>clearme()</slot>
     <slot>clearPolys()</slot>
-    <slot>scaleViewport()</slot>
+    <slot>toggleViewportScaling(bool)</slot>
+    <slot>slot1()</slot>
+    <slot>toggleMatrices(bool)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -541,8 +546,8 @@
    <slot>pushMatrix()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>821</x>
-     <y>331</y>
+     <x>913</x>
+     <y>291</y>
     </hint>
     <hint type="destinationlabel">
      <x>612</x>
@@ -557,28 +562,12 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>821</x>
-     <y>191</y>
+     <x>913</x>
+     <y>165</y>
     </hint>
     <hint type="destinationlabel">
      <x>670</x>
      <y>49</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>toggleMatrices(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>800</x>
-     <y>350</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>762</x>
-     <y>43</y>
     </hint>
    </hints>
   </connection>
@@ -589,8 +578,8 @@
    <slot>popMatrix()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>821</x>
-     <y>404</y>
+     <x>913</x>
+     <y>391</y>
     </hint>
     <hint type="destinationlabel">
      <x>906</x>
@@ -605,8 +594,8 @@
    <slot>clearStack()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>684</x>
-     <y>720</y>
+     <x>913</x>
+     <y>752</y>
     </hint>
     <hint type="destinationlabel">
      <x>608</x>
@@ -621,8 +610,8 @@
    <slot>clearPolys()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>703</x>
-     <y>121</y>
+     <x>913</x>
+     <y>138</y>
     </hint>
     <hint type="destinationlabel">
      <x>571</x>
@@ -631,18 +620,34 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_7</sender>
-   <signal>clicked()</signal>
+   <sender>checkBox_2</sender>
+   <signal>toggled(bool)</signal>
    <receiver>oglwidget</receiver>
-   <slot>scaleViewport()</slot>
+   <slot>toggleViewportScaling(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>658</x>
-     <y>144</y>
+     <x>749</x>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
-     <x>553</x>
-     <y>149</y>
+     <x>658</x>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>oglwidget</receiver>
+   <slot>toggleMatrices(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>754</x>
+     <y>304</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>644</x>
+     <y>303</y>
     </hint>
    </hints>
   </connection>

@@ -40,16 +40,16 @@ public:
     void pushMatrix(QMatrix3x3);
     void popMatrix();
     void newStack();
+    void clearStack();
     QStack<QMatrix3x3> stack;
-    bool transform;
 
 signals:
 
 public slots:
     void newPoly();
     void clearPolys();
-    void clearStack();
-    void scaleViewport();
+    void toggleMatrices(bool toggle);
+    void toggleViewportScaling(bool scale);
 
 protected:
 
@@ -102,21 +102,22 @@ private:
     void movePoint(int x, int y);
     void addPoint(int x,  int y);
     void select(int x, int y);
-
-    bool  drawon, permittransform;
     void drawFigure();
     void drawCircle(double radius, double xcen, double ycen, bool line);
     void drawLine(double x0, double y0, double x1, double y1 );
 
     /* Additional Variables */
-    QVector< QVector<QVector3D> > polygons;
-    QVector< QVector<double> > polyColors;
-    QVector3D * csv;  // The current selected vertex.  Set to null if none selected
-    QMatrix3x3 viewportScale;
+    QVector< QVector<QVector3D> > polygons; // All the polygons (sets of points) are stored here
+    QVector< QVector<double> > polyColors;  // All the polgons have separate colours, stored here
+    QVector3D * csv;                        // The current selected vertex.  Set to null if none selected
+    QMatrix3x3 viewportScale;               // The matrix that gets all polygons back onto the screen
+    bool viewportScaling;                   // True if user wants to scale down/up to viewport
+    bool transform;                         // True if user wants to apply transformation matrix
 
     /* Additional Functions */
     QVector3D vectorTransform(QVector3D v, QMatrix3x3 m);
     QMatrix3x3 invertMatrix(QMatrix3x3 orig);
+    void scaleViewport();
 
 };
 

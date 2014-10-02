@@ -1,6 +1,5 @@
 #include "basicopenglview.h"
 
-
 BasicOpenGLView::BasicOpenGLView(QWidget *parent)
       : QGLWidget(parent), polygons(QVector< QVector<QVector3D> >())
 {
@@ -13,6 +12,7 @@ BasicOpenGLView::BasicOpenGLView(QWidget *parent)
     newStack();
     transform = true;
     viewportScale.setToIdentity();
+    viewportScaling = true;
 }
 
 void BasicOpenGLView::initializeGL()
@@ -36,12 +36,10 @@ void BasicOpenGLView::resizeGL(int width, int height)
 
 void BasicOpenGLView::paintGL()
 {
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     drawFigure();
 }
-
 
 void BasicOpenGLView::mousePressEvent(QMouseEvent *e)
 {
@@ -68,6 +66,8 @@ void BasicOpenGLView::mouseReleaseEvent(QMouseEvent *e)
     // finished move point
     movePoint(e->x(), height()-e->y());
     mousedown = false;
+    if (viewportScaling)
+        scaleViewport();
     update();
 }
 
@@ -121,23 +121,6 @@ void BasicOpenGLView::select(int x, int y)
     }
 }
 
-void BasicOpenGLView::clearPolys()
-{
-    polygons.clear();
-    polyColors.clear();
-    viewportScale.setToIdentity();
-    newPoly();
-    update();
-}
-
-void BasicOpenGLView::clearStack()
-{
-    stack.clear();
-    newStack();
-
-    update();
-}
-
 void BasicOpenGLView::drawCircle(double radius, double xcen, double ycen, bool line)
 {
    GLint i;
@@ -185,7 +168,9 @@ void BasicOpenGLView::drawFigure()
             y0 = firstY;
 
             for (j = 1; j < polygons.at(i).size(); j++) {
-                transformed = vectorTransform(polygons.at(i).at(j), stack.top());
+                transformed = polygons.at(i).at(j);
+                if (transform)
+                    transformed = vectorTransform(transformed, stack.top());
                 transformed = vectorTransform(transformed, viewportScale);
                 x1 = transformed.x();
                 y1 = transformed.y();
@@ -208,6 +193,71 @@ void BasicOpenGLView::drawFigure()
         }
     }
 }
+
+/* ********************** PUBLIC SLOTS ********************** */
+
+void BasicOpenGLView::newPoly() {
+    polygons.append(QVector<QVector3D>());
+    polyColors.append(QVector<double>(3));
+    polyColors.last()[0] = ((double) rand() / (RAND_MAX));
+    polyColors.last()[1] = ((double) rand() / (RAND_MAX));
+    polyColors.last()[2] = ((double) rand() / (RAND_MAX));
+    update();
+}
+
+void BasicOpenGLView::clearPolys()
+{
+    polygons.clear();
+    polyColors.clear();
+    viewportScale.setToIdentity();
+    newPoly();
+    update();
+}
+
+void BasicOpenGLView::toggleMatrices(bool toggle)
+{
+    transform = toggle;
+    update();
+}
+
+void BasicOpenGLView::toggleViewportScaling(bool scale)
+{
+    viewportScaling = scale;
+    scaleViewport();
+    update();
+}
+
+/* ******************** PUBLIC FUNCTIONS ******************** */
+
+void BasicOpenGLView::pushMatrix(QMatrix3x3 newMatrix) {
+    stack.push(newMatrix*stack.top());
+    if (viewportScaling)
+        scaleViewport();
+    update();
+}
+
+void BasicOpenGLView::popMatrix() {
+    stack.pop();
+    if (viewportScaling)
+        scaleViewport();
+    update();
+}
+
+void BasicOpenGLView::newStack() {
+    QMatrix3x3 ident = QMatrix3x3();
+    ident.setToIdentity();
+    stack.push(ident);
+}
+
+void BasicOpenGLView::clearStack()
+{
+    stack.clear();
+    newStack();
+
+    update();
+}
+
+/* ******************** PRIVATE FUNCTIONS ******************** */
 
 QVector3D BasicOpenGLView::vectorTransform(QVector3D v, QMatrix3x3 m)
 {
@@ -239,31 +289,6 @@ QMatrix3x3 BasicOpenGLView::invertMatrix(QMatrix3x3 orig)
     inv.operator()(2,2) = (((orig.operator()(0,0) * orig.operator()(1,1)) - (orig.operator()(0,1) * orig.operator()(1,0))) / det);
 
     return inv;
-}
-
-void BasicOpenGLView::newPoly() {
-    polygons.append(QVector<QVector3D>());
-    polyColors.append(QVector<double>(3));
-    polyColors.last()[0] = ((double) rand() / (RAND_MAX));
-    polyColors.last()[1] = ((double) rand() / (RAND_MAX));
-    polyColors.last()[2] = ((double) rand() / (RAND_MAX));
-    update();
-}
-
-void BasicOpenGLView::newStack() {
-    QMatrix3x3 ident = QMatrix3x3();
-    ident.setToIdentity();
-    stack.push(ident);
-}
-
-void BasicOpenGLView::pushMatrix(QMatrix3x3 newMatrix) {
-    stack.push(newMatrix*stack.top());
-    update();
-}
-
-void BasicOpenGLView::popMatrix() {
-    stack.pop();
-    update();
 }
 
 void BasicOpenGLView::scaleViewport() {
@@ -333,7 +358,4 @@ void BasicOpenGLView::scaleViewport() {
     viewportScale = viewportScale * QMatrix3x3( entries2 ) * QMatrix3x3(elems);
 
     qDebug() << viewportScale;
-    update();
-
 }
-
