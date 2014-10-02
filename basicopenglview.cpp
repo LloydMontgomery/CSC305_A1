@@ -12,6 +12,7 @@ BasicOpenGLView::BasicOpenGLView(QWidget *parent)
     newPoly();
     newStack();
     transform = true;
+    viewportScale.setToIdentity();
 }
 
 void BasicOpenGLView::initializeGL()
@@ -72,25 +73,16 @@ void BasicOpenGLView::mouseReleaseEvent(QMouseEvent *e)
 
 void BasicOpenGLView::movePoint(int x, int y)
 {
-    if (transform) {
-        QVector3D invPoint = vectorTransform(QVector3D(x, y, 1), invertMatrix(stack.top()));
-        if (mousedown) {
-            if (csv == NULL)    // If no vertex selected
-                select(x, y);  // Look for vertex selected
-            if (csv != NULL) {  // If vertex selected
-                csv->setX(invPoint.x());
-                csv->setY(invPoint.y());
-            }
-        }
-    }
-    else {
-        if (mousedown) {
-            if (csv == NULL)    // If no vertex selected
-                select(x, y);  // Look for vertex selected
-            if (csv != NULL) {  // If vertex selected
-                csv->setX(x);
-                csv->setY(y);
-            }
+    QVector3D invPoint = QVector3D(x, y, 1);
+    if (transform)
+        invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Account for matrix stack
+    invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for viewport scale
+    if (mousedown) {
+        if (csv == NULL)    // If no vertex selected
+            select(x, y);  // Look for vertex selected
+        if (csv != NULL) {  // If vertex selected
+            csv->setX(invPoint.x());
+            csv->setY(invPoint.y());
         }
     }
 }
@@ -98,50 +90,32 @@ void BasicOpenGLView::movePoint(int x, int y)
 void BasicOpenGLView::addPoint(int x, int y)
 {
     int i;
-    if (transform) {
-        QVector3D invPoint = vectorTransform(QVector3D(x, y, 1), invertMatrix(stack.top()));
-        for (i = 0; i < polygons.size(); i++) {
-            if ( polygons.at(i).size() > 0 && ( (polygons.at(i).at(0).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(0).x()+RADIUS) > invPoint.x() )
-                                           && ( (polygons.at(i).at(0).y()-RADIUS) < invPoint.y() && (polygons.at(i).at(0).y()+RADIUS) > invPoint.y() ) ) {
-                newPoly();
-                return;
-            }
+    QVector3D invPoint = QVector3D(x, y, 1);
+    if (transform)
+        invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Account for the matrix stack
+    invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for the viewport scale
+    for (i = 0; i < polygons.size(); i++) {
+        if ( polygons.at(i).size() > 0 && ( (polygons.at(i).at(0).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(0).x()+RADIUS) > invPoint.x() )
+                                       && ( (polygons.at(i).at(0).y()-RADIUS) < invPoint.y() && (polygons.at(i).at(0).y()+RADIUS) > invPoint.y() ) ) {
+            newPoly();
+            return;
         }
-        polygons.last().append(QVector3D(invPoint.x(), invPoint.y(), 1));
     }
-    else {
-        for (i = 0; i < polygons.size(); i++) {
-            if ( polygons.at(i).size() > 0 && ( (polygons.at(i).at(0).x()-RADIUS) < x && (polygons.at(i).at(0).x()+RADIUS) > x )
-                                           && ( (polygons.at(i).at(0).y()-RADIUS) < y && (polygons.at(i).at(0).y()+RADIUS) > y ) ) {
-                newPoly();
-                return;
-            }
-        }
-        polygons.last().append(QVector3D(x, y, 1));
-    }
+    polygons.last().append(QVector3D(invPoint.x(), invPoint.y(), 1));
 }
 
 void BasicOpenGLView::select(int x, int y)
 {
     int i, j;
-    if (transform) {
-        QVector3D invPoint = vectorTransform(QVector3D(x, y, 1), invertMatrix(stack.top()));
-        for (i = 0; i < polygons.size(); i++) {
-            for (j = 0; j < polygons.at(i).size(); j++) {
-                if (   ( (polygons.at(i).at(j).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(j).x()+RADIUS) > invPoint.x() )
-                    && ( (polygons.at(i).at(j).y()-RADIUS) < invPoint.y() && (polygons.at(i).at(j).y()+RADIUS) > invPoint.y() ) ) {
-                    csv = &(polygons[i][j]);
-                }
-            }
-        }
-    }
-    else {
-        for (i = 0; i < polygons.size(); i++) {
-            for (j = 0; j < polygons.at(i).size(); j++) {
-                if (   ( (polygons.at(i).at(j).x()-RADIUS) < x && (polygons.at(i).at(j).x()+RADIUS) > x )
-                    && ( (polygons.at(i).at(j).y()-RADIUS) < y && (polygons.at(i).at(j).y()+RADIUS) > y ) ) {
-                    csv = &(polygons[i][j]);
-                }
+    QVector3D invPoint = QVector3D(x, y, 1);
+    if (transform)
+        invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Multiply by the Matrix stack
+    invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Multiply by the viewport scale
+    for (i = 0; i < polygons.size(); i++) {
+        for (j = 0; j < polygons.at(i).size(); j++) {
+            if (   ( (polygons.at(i).at(j).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(j).x()+RADIUS) > invPoint.x() )
+                && ( (polygons.at(i).at(j).y()-RADIUS) < invPoint.y() && (polygons.at(i).at(j).y()+RADIUS) > invPoint.y() ) ) {
+                csv = &(polygons[i][j]);
             }
         }
     }
@@ -154,6 +128,7 @@ void BasicOpenGLView::clearPolys()
     // THIS IS NOT A DEEP CLEAR, FIX THIS
     polygons.clear();
     polyColors.clear();
+    viewportScale.setToIdentity();
     newPoly();
     update();
 }
@@ -203,33 +178,23 @@ void BasicOpenGLView::drawFigure()
             ;
         else
         {
-            if (transform) {
-                transformed = vectorTransform(polygons.at(i).at(0), stack.top());
-                firstX = transformed.x();
-                firstY = transformed.y();
-                x0 = firstX;
-                y0 = firstY;
+            transformed = polygons.at(i).at(0);
+            if (transform)
+                transformed = vectorTransform(transformed, stack.top());  // Transform by the matrix stack
+            transformed = vectorTransform(transformed, viewportScale);  // Tranform by the viewport scale
+            firstX = transformed.x();
+            firstY = transformed.y();
+            x0 = firstX;
+            y0 = firstY;
 
-                for (j = 1; j < polygons.at(i).size(); j++) {
-                    transformed = vectorTransform(polygons.at(i).at(j), stack.top());
-                    x1 = transformed.x();
-                    y1 = transformed.y();
-                    drawLine(x0, y0, x1, y1);
-                    x0 = x1;  y0 = y1;
-                }
-            }
-            else {
-                firstX = polygons.at(i).at(0).x();
-                firstY = polygons.at(i).at(0).y();
-                x0 = firstX;
-                y0 = firstY;
+            for (j = 1; j < polygons.at(i).size(); j++) {
+                transformed = vectorTransform(polygons.at(i).at(j), stack.top());
+                transformed = vectorTransform(transformed, viewportScale);
+                x1 = transformed.x();
+                y1 = transformed.y();
+                drawLine(x0, y0, x1, y1);
+                x0 = x1;  y0 = y1;
 
-                for (j = 1; j < polygons.at(i).size(); j++) {
-                    x1 = polygons.at(i).at(j).x();
-                    y1 = polygons.at(i).at(j).y();
-                    drawLine(x0, y0, x1, y1);
-                    x0 = x1;  y0 = y1;
-                }
             }
 
             // If this is a closed polygon, draw the last line
@@ -237,16 +202,12 @@ void BasicOpenGLView::drawFigure()
                 drawLine(x1, y1, firstX, firstY);
         }
 
-        if (transform) {
-            for (j = 0; j < polygons.at(i).size(); j++){
-                transformed = vectorTransform(polygons.at(i).at(j), stack.top());
-                drawCircle( (double)RADIUS, transformed.x(), transformed.y(), false);
-            }
-        }
-        else {
-            for (j = 0; j < polygons.at(i).size(); j++){
-                drawCircle( (double)RADIUS, polygons.at(i).at(j).x(), polygons.at(i).at(j).y(), false);
-            }
+        for (j = 0; j < polygons.at(i).size(); j++){
+            transformed = polygons.at(i).at(j);
+            if (transform)
+                transformed = vectorTransform(transformed, stack.top());  // Tranform by the matrix stack
+            transformed = vectorTransform(transformed, viewportScale);  // Transform by the viewport scale
+            drawCircle( (double)RADIUS, transformed.x(), transformed.y(), false);
         }
     }
 }
@@ -313,10 +274,10 @@ void BasicOpenGLView::scaleViewport() {
         return;
 
     int i, j;
-    int minX = polygons.at(0).at(0).x();
-    int maxX = minX;
-    int minY = polygons.at(0).at(0).y();
-    int maxY = minY;
+    double minX = polygons.at(0).at(0).x();
+    double maxX = minX;
+    double minY = polygons.at(0).at(0).y();
+    double maxY = minY;
 
     GLint vp [4];
     glGetIntegerv (GL_VIEWPORT, vp);  // Find current viewport dimensions
@@ -359,22 +320,23 @@ void BasicOpenGLView::scaleViewport() {
     qDebug() << "";
 
     // If all points are within the viewport, then exit
-    if (minX > vp[0] &&  minY > vp[1] && maxX < vp[2] && maxY < vp[3])
+    if (minX > 0 &&  minY > 0 && maxX < width() && maxY < height())
         return;
 
+    double scale;
 
+    if (((maxX-minX) - width()) > ((maxY-minY) - height()))
+        scale = (1 / ((maxX-minX) / width()));
+    else
+        scale = (1 / ((maxY-minY) / height()));
 
-    int dimension;
-    ((maxX - minX) > (maxY - minY))? dimension = (maxX - minX) : dimension = (maxY - minY);
+    double elems[] = {1, 0, -minX, 0, 1, -minY, 0, 0, 1};
+    double entries2[] = {scale, 0, 0, 0, scale, 0, 0, 0, 1};  // scale to bring all elements into the viewport
+    viewportScale.setToIdentity();
+    viewportScale = viewportScale * QMatrix3x3( entries2 ) * QMatrix3x3(elems);
 
-    glViewport( minX, minY, dimension, dimension);
-    qDebug() << "Viewport Scaled";
+    qDebug() << viewportScale;
     update();
-
-
-
-
-
 
 }
 

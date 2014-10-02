@@ -112,6 +112,7 @@ private:
     QVector< QVector<QVector3D> > polygons;
     QVector< QVector<double> > polyColors;
     QVector3D * csv;  // The current selected vertex.  Set to null if none selected
+    QMatrix3x3 viewportScale;
 
     /* Additional Functions */
     QVector3D vectorTransform(QVector3D v, QMatrix3x3 m);
