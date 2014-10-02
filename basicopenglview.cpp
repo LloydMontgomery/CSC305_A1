@@ -38,7 +38,7 @@ void BasicOpenGLView::paintGL()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    drawFigure(transform);
+    drawFigure();
 }
 
 
@@ -189,7 +189,7 @@ void BasicOpenGLView::drawLine(double x0, double y0, double x1, double y1 )
     glEnd();
 }
 
-void BasicOpenGLView::drawFigure(bool transform)
+void BasicOpenGLView::drawFigure()
 {
     // draw a line between each pair of points
     int x0,x1,y0,y1,i,j, firstX, firstY;
@@ -306,5 +306,75 @@ void BasicOpenGLView::pushMatrix(QMatrix3x3 newMatrix) {
 void BasicOpenGLView::popMatrix() {
     stack.pop();
     update();
+}
+
+void BasicOpenGLView::scaleViewport() {
+    if (polygons.at(0).size() == 0)  // nothing on the screen
+        return;
+
+    int i, j;
+    int minX = polygons.at(0).at(0).x();
+    int maxX = minX;
+    int minY = polygons.at(0).at(0).y();
+    int maxY = minY;
+
+    GLint vp [4];
+    glGetIntegerv (GL_VIEWPORT, vp);  // Find current viewport dimensions
+
+    if (transform) {
+        // Set mins and maxes
+        for (i = 0; i < polygons.size(); i++) {
+            for (j = 0; j < polygons.at(i).size(); j++) {
+               QVector3D invPoint = vectorTransform(polygons.at(i).at(j), stack.top());
+               if (invPoint.x() < minX) minX = invPoint.x();
+               else if (invPoint.x() > maxX) maxX = invPoint.x();
+               if (invPoint.y() < minY) minY = invPoint.y();
+               else if (invPoint.y() > maxY) maxY = invPoint.y();
+            }
+        }
+    }
+    else {
+        // Set mins and maxes
+        for (i = 0; i < polygons.size(); i++) {
+            for (j = 0; j < polygons.at(i).size(); j++) {
+               if (polygons.at(i).at(j).x() < minX) minX = polygons.at(i).at(j).x();
+               else if (polygons.at(i).at(j).x() > maxX) maxX = polygons.at(i).at(j).x();
+               if (polygons.at(i).at(j).y() < minY) minY = polygons.at(i).at(j).y();
+               else if (polygons.at(i).at(j).y() > maxY) maxY = polygons.at(i).at(j).y();
+            }
+        }
+    }
+
+    qDebug() << "Point Values:";
+    qDebug() << minX;
+    qDebug() << minY;
+    qDebug() << maxX;
+    qDebug() << maxY;
+
+    qDebug() << "Viewport Values:";
+    qDebug() << vp[0];
+    qDebug() << vp[1];
+    qDebug() << vp[2];
+    qDebug() << vp[3];
+    qDebug() << "";
+
+    // If all points are within the viewport, then exit
+    if (minX > vp[0] &&  minY > vp[1] && maxX < vp[2] && maxY < vp[3])
+        return;
+
+
+
+    int dimension;
+    ((maxX - minX) > (maxY - minY))? dimension = (maxX - minX) : dimension = (maxY - minY);
+
+    glViewport( minX, minY, dimension, dimension);
+    qDebug() << "Viewport Scaled";
+    update();
+
+
+
+
+
+
 }
 
