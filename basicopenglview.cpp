@@ -239,6 +239,8 @@ void BasicOpenGLView::clearStack()
 {
     stack.clear();
     newStack();
+    if (viewportScaling)
+        scaleViewport();
     update();
 }
 
@@ -304,28 +306,34 @@ void BasicOpenGLView::scaleViewport() {
     double minX, maxX, minY, maxY;
     QVector3D visVert;
 
-    // set mins and maxs to a point on the screen
-    minX = visualVertex(polygons.at(0).at(0)).x();
-    maxX = minX;
-    minY = visualVertex(polygons.at(0).at(0)).y();
-    maxY = minY;
+    for (int itter = 0; itter < 2; itter++) {
+        // set mins and maxs to a point on the screen
+        minX = visualVertex(polygons.at(0).at(0)).x();
+        maxX = minX;
+        minY = visualVertex(polygons.at(0).at(0)).y();
+        maxY = minY;
 
-    viewportScaling = false;
-    // Set mins and maxes
-    for (i = 0; i < polygons.size(); i++) {
-        for (j = 0; j < polygons.at(i).size(); j++) {
-           visVert = visualVertex(polygons.at(i).at(j));
-           if (visVert.x() < minX) minX = visVert.x();
-           else if (visVert.x() > maxX) maxX = visVert.x();
-           if (visVert.y() < minY) minY = visVert.y();
-           else if (visVert.y() > maxY) maxY = visVert.y();
+        if ( itter == 1 )
+            viewportScaling = false;
+        // Set mins and maxes
+        for (i = 0; i < polygons.size(); i++) {
+            for (j = 0; j < polygons.at(i).size(); j++) {
+               visVert = visualVertex(polygons.at(i).at(j));
+               if (visVert.x() < minX) minX = visVert.x();
+               else if (visVert.x() > maxX) maxX = visVert.x();
+               if (visVert.y() < minY) minY = visVert.y();
+               else if (visVert.y() > maxY) maxY = visVert.y();
+            }
         }
-    }
-    viewportScaling = true;
+        if ( itter == 1 )
+            viewportScaling = true;
 
-    // If all points are within the viewport, then exit
-    if (minX >= 0 &&  minY >= 0 && maxX <= width() && maxY <= height())
-        return;
+        // If all points are within the viewport, then exit
+        if ( itter == 0 )
+            if (minX >= 0 &&  minY >= 0 && maxX <= width() && maxY <= height())
+                return;
+    }
+
 
     double scale;
     if (((maxX-minX) - width()) > ((maxY-minY) - height()))

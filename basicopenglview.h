@@ -47,35 +47,27 @@ signals:
 
 public slots:
 
-    /*
-     * void newPoly();
+    /* void newPoly();
      *
      * Creates a new polygon by closing the last one
-     *
      */
     void newPoly();
 
-    /*
-     * void clearPolys();
+    /* void clearPolys();
      *
      * Clears all of the polygons on the screen
-     *
      */
     void clearPolys();
 
-    /*
-     * void toggleMatrices(bool toggle);
+    /* void toggleMatrices(bool toggle);
      *
      * sets the global transform to true of false
-     *
      */
     void toggleMatrices(bool toggle);
 
-    /*
-     * void toggleViewportScaling(bool scale);
+    /* void toggleViewportScaling(bool scale);
      *
      * sets the global viewportScaling to true or false
-     *
      */
     void toggleViewportScaling(bool scale);
 
@@ -144,32 +136,43 @@ private:
 
     /* Additional Functions */
 
-    /*
-     * QVector3D vectorTransform(QVector3D v, QMatrix3x3 m);
+    /* QVector3D vectorTransform(QVector3D v, QMatrix3x3 m);
      *
      * Given a vector v and a 3x3 matrix m, computes m*v
-     *
      */
     QVector3D vectorTransform(QVector3D v, QMatrix3x3 m);
 
-    /*
-     * QMatrix3x3 invertMatrix(QMatrix3x3 orig);
+    /* QMatrix3x3 invertMatrix(QMatrix3x3 orig);
      *
      * given a 3x3 matrix orig, inverts the matrix
-     *
      */
     QMatrix3x3 invertMatrix(QMatrix3x3 orig);
 
-    /*
-     * void scaleViewport();
+    /* void scaleViewport();
      *
      * Scales all of the points on the screen so that they fit within the current viewport
-     *
      */
     void scaleViewport();
 
+    /* QVector3D visualVertex(QVector3D result);
+     *
+     * Given a QVector3D that is a polygon point in memory, visualVertex will return
+     * a QVector3D that is the visual location of that vertex.  This is needed because
+     * I am storing the vertices in their absolute locations, regardless of transforms,
+     * and displaying them with the transforms applied.
+     */
     QVector3D visualVertex(QVector3D result);
 
+    /* QVector3D inverseClick(QVector3D result);
+     *
+     * Given a QVector3D that represents where the user clicked, visualVertex will
+     * return a QVector3D that has the inverted coordinates of the system.  Which means,
+     * I apply the inverse marix of the matrix stack, as well as the inverse of the viewport
+     * matrix, and then return that point.  This is needed because when you click to add
+     * a new point, it needs to be added at the inverse of where it will be drawn, so it ends
+     * up back underneath the mouse cursor.
+     *
+     */
     QVector3D inverseClick(QVector3D result);
 
 };

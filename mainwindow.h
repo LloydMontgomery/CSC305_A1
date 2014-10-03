@@ -23,30 +23,24 @@ public:
 
 public slots:
 
-    /*
-     * void pushMatrix()
+    /* void pushMatrix()
      *
      * Pushes a new matrix onto the stack based on the values currently stored
      * in the table entries in the UI.  Finishes by setting the table values
      * back to the identity
-     *
      */
     void pushMatrix();
 
-    /*
-     * void popMatrix()
+    /* void popMatrix()
      *
      * Pop off one matrix from the stack.  Take it off the actual stack as well as
      * take if off the visual stack.
-     *
      */
     void popMatrix();
 
-    /*
-     * void clearStack()
+    /* void clearStack()
      *
      * Clears the matrix transformation stack and clears the stack printing to the screen
-     *
      */
     void clearStack();
     
@@ -54,12 +48,10 @@ private:
     Ui::MainWindow *ui;
     QString ss;  // stack string
 
-    /*
-     * void addToSS()
+    /* void addToSS()
      *
      * Adds the top of the matrix stack to the stack string so it can be displayed.
      * Most of the code below is for formatting.
-     *
      */
     void addToSS();
 
