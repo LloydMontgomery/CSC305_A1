@@ -46,9 +46,37 @@ public:
 signals:
 
 public slots:
+
+    /*
+     * void newPoly();
+     *
+     * Creates a new polygon by closing the last one
+     *
+     */
     void newPoly();
+
+    /*
+     * void clearPolys();
+     *
+     * Clears all of the polygons on the screen
+     *
+     */
     void clearPolys();
+
+    /*
+     * void toggleMatrices(bool toggle);
+     *
+     * sets the global transform to true of false
+     *
+     */
     void toggleMatrices(bool toggle);
+
+    /*
+     * void toggleViewportScaling(bool scale);
+     *
+     * sets the global viewportScaling to true or false
+     *
+     */
     void toggleViewportScaling(bool scale);
 
 protected:
@@ -115,8 +143,29 @@ private:
     bool transform;                         // True if user wants to apply transformation matrix
 
     /* Additional Functions */
+
+    /*
+     * QVector3D vectorTransform(QVector3D v, QMatrix3x3 m);
+     *
+     * Given a vector v and a 3x3 matrix m, computes m*v
+     *
+     */
     QVector3D vectorTransform(QVector3D v, QMatrix3x3 m);
+
+    /*
+     * QMatrix3x3 invertMatrix(QMatrix3x3 orig);
+     *
+     * given a 3x3 matrix orig, inverts the matrix
+     *
+     */
     QMatrix3x3 invertMatrix(QMatrix3x3 orig);
+
+    /*
+     * void scaleViewport();
+     *
+     * Scales all of the points on the screen so that they fit within the current viewport
+     *
+     */
     void scaleViewport();
 
 };

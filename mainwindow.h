@@ -24,7 +24,7 @@ public:
 public slots:
 
     /*
-     * void MainWindow::pushMatrix()
+     * void pushMatrix()
      *
      * Pushes a new matrix onto the stack based on the values currently stored
      * in the table entries in the UI.  Finishes by setting the table values
@@ -34,7 +34,7 @@ public slots:
     void pushMatrix();
 
     /*
-     * void MainWindow::popMatrix()
+     * void popMatrix()
      *
      * Pop off one matrix from the stack.  Take it off the actual stack as well as
      * take if off the visual stack.
@@ -43,7 +43,7 @@ public slots:
     void popMatrix();
 
     /*
-     * void MainWindow::clearStack()
+     * void clearStack()
      *
      * Clears the matrix transformation stack and clears the stack printing to the screen
      *
@@ -55,7 +55,7 @@ private:
     QString ss;  // stack string
 
     /*
-     * void MainWindow::addToSS()
+     * void addToSS()
      *
      * Adds the top of the matrix stack to the stack string so it can be displayed.
      * Most of the code below is for formatting.

@@ -74,9 +74,10 @@ void BasicOpenGLView::mouseReleaseEvent(QMouseEvent *e)
 void BasicOpenGLView::movePoint(int x, int y)
 {
     QVector3D invPoint = QVector3D(x, y, 1);
-    if (transform)
+    if (viewportScaling)
+        invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for viewport scale
+    if (transform)  // This pattern repeats throughout the code: if user wants to transform
         invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Account for matrix stack
-    invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for viewport scale
     if (mousedown) {
         if (csv == NULL)    // If no vertex selected
             select(x, y);  // Look for vertex selected
@@ -93,7 +94,8 @@ void BasicOpenGLView::addPoint(int x, int y)
     QVector3D invPoint = QVector3D(x, y, 1);
     if (transform)
         invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Account for the matrix stack
-    invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for the viewport scale
+    if (viewportScaling)
+        invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for the viewport scale
     for (i = 0; i < polygons.size(); i++) {
         if ( polygons.at(i).size() > 0 && ( (polygons.at(i).at(0).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(0).x()+RADIUS) > invPoint.x() )
                                        && ( (polygons.at(i).at(0).y()-RADIUS) < invPoint.y() && (polygons.at(i).at(0).y()+RADIUS) > invPoint.y() ) ) {
@@ -110,7 +112,8 @@ void BasicOpenGLView::select(int x, int y)
     QVector3D invPoint = QVector3D(x, y, 1);
     if (transform)
         invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Multiply by the Matrix stack
-    invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Multiply by the viewport scale
+    if (viewportScaling)
+        invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Multiply by the viewport scale
     for (i = 0; i < polygons.size(); i++) {
         for (j = 0; j < polygons.at(i).size(); j++) {
             if (   ( (polygons.at(i).at(j).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(j).x()+RADIUS) > invPoint.x() )
@@ -161,7 +164,8 @@ void BasicOpenGLView::drawFigure()
             transformed = polygons.at(i).at(0);
             if (transform)
                 transformed = vectorTransform(transformed, stack.top());  // Transform by the matrix stack
-            transformed = vectorTransform(transformed, viewportScale);  // Tranform by the viewport scale
+            if (viewportScaling)
+                transformed = vectorTransform(transformed, viewportScale);  // Tranform by the viewport scale
             firstX = transformed.x();
             firstY = transformed.y();
             x0 = firstX;
@@ -171,7 +175,8 @@ void BasicOpenGLView::drawFigure()
                 transformed = polygons.at(i).at(j);
                 if (transform)
                     transformed = vectorTransform(transformed, stack.top());
-                transformed = vectorTransform(transformed, viewportScale);
+                if (viewportScaling)
+                    transformed = vectorTransform(transformed, viewportScale);
                 x1 = transformed.x();
                 y1 = transformed.y();
                 drawLine(x0, y0, x1, y1);
@@ -188,7 +193,8 @@ void BasicOpenGLView::drawFigure()
             transformed = polygons.at(i).at(j);
             if (transform)
                 transformed = vectorTransform(transformed, stack.top());  // Tranform by the matrix stack
-            transformed = vectorTransform(transformed, viewportScale);  // Transform by the viewport scale
+            if (viewportScaling)
+                transformed = vectorTransform(transformed, viewportScale);  // Transform by the viewport scale
             drawCircle( (double)RADIUS, transformed.x(), transformed.y(), false);
         }
     }
@@ -223,7 +229,6 @@ void BasicOpenGLView::toggleMatrices(bool toggle)
 void BasicOpenGLView::toggleViewportScaling(bool scale)
 {
     viewportScaling = scale;
-    scaleViewport();
     update();
 }
 
@@ -253,7 +258,6 @@ void BasicOpenGLView::clearStack()
 {
     stack.clear();
     newStack();
-
     update();
 }
 
@@ -301,52 +305,25 @@ void BasicOpenGLView::scaleViewport() {
     double minY = polygons.at(0).at(0).y();
     double maxY = minY;
 
-    GLint vp [4];
-    glGetIntegerv (GL_VIEWPORT, vp);  // Find current viewport dimensions
-
-    if (transform) {
-        // Set mins and maxes
-        for (i = 0; i < polygons.size(); i++) {
-            for (j = 0; j < polygons.at(i).size(); j++) {
-               QVector3D invPoint = vectorTransform(polygons.at(i).at(j), stack.top());
-               if (invPoint.x() < minX) minX = invPoint.x();
-               else if (invPoint.x() > maxX) maxX = invPoint.x();
-               if (invPoint.y() < minY) minY = invPoint.y();
-               else if (invPoint.y() > maxY) maxY = invPoint.y();
-            }
+    // Set mins and maxes
+    for (i = 0; i < polygons.size(); i++) {
+        for (j = 0; j < polygons.at(i).size(); j++) {
+           QVector3D invPoint = polygons.at(i).at(j);
+           if (transform)
+               invPoint = vectorTransform(invPoint, stack.top());
+           invPoint = vectorTransform(invPoint, viewportScale);
+           if (invPoint.x() < minX) minX = invPoint.x();
+           else if (invPoint.x() > maxX) maxX = invPoint.x();
+           if (invPoint.y() < minY) minY = invPoint.y();
+           else if (invPoint.y() > maxY) maxY = invPoint.y();
         }
     }
-    else {
-        // Set mins and maxes
-        for (i = 0; i < polygons.size(); i++) {
-            for (j = 0; j < polygons.at(i).size(); j++) {
-               if (polygons.at(i).at(j).x() < minX) minX = polygons.at(i).at(j).x();
-               else if (polygons.at(i).at(j).x() > maxX) maxX = polygons.at(i).at(j).x();
-               if (polygons.at(i).at(j).y() < minY) minY = polygons.at(i).at(j).y();
-               else if (polygons.at(i).at(j).y() > maxY) maxY = polygons.at(i).at(j).y();
-            }
-        }
-    }
-
-    qDebug() << "Point Values:";
-    qDebug() << minX;
-    qDebug() << minY;
-    qDebug() << maxX;
-    qDebug() << maxY;
-
-    qDebug() << "Viewport Values:";
-    qDebug() << vp[0];
-    qDebug() << vp[1];
-    qDebug() << vp[2];
-    qDebug() << vp[3];
-    qDebug() << "";
 
     // If all points are within the viewport, then exit
-    if (minX > 0 &&  minY > 0 && maxX < width() && maxY < height())
+    if (minX >= 0 &&  minY >= 0 && maxX <= width() && maxY <= height())
         return;
 
     double scale;
-
     if (((maxX-minX) - width()) > ((maxY-minY) - height()))
         scale = (1 / ((maxX-minX) / width()));
     else
@@ -354,8 +331,6 @@ void BasicOpenGLView::scaleViewport() {
 
     double elems[] = {1, 0, -minX, 0, 1, -minY, 0, 0, 1};
     double entries2[] = {scale, 0, 0, 0, scale, 0, 0, 0, 1};  // scale to bring all elements into the viewport
-    viewportScale.setToIdentity();
+    //viewportScale.setToIdentity();
     viewportScale = viewportScale * QMatrix3x3( entries2 ) * QMatrix3x3(elems);
-
-    qDebug() << viewportScale;
 }
