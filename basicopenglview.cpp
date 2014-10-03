@@ -48,77 +48,64 @@ void BasicOpenGLView::mousePressEvent(QMouseEvent *e)
     mousedown = true;
     csv = NULL;
 
+    QVector3D invClick = inverseClick(QVector3D(e->x(), height()-e->y(), 1));
     if (e->button() == Qt::RightButton)
-        addPoint( e->x(), height()-e->y() );
+        addPoint( invClick.x(), invClick.y() );
     if (e->button() == Qt::LeftButton)
-        movePoint(e->x(), height()-e->y() );
+        movePoint( invClick.x(), invClick.y() );
     update();
 }
 
 void BasicOpenGLView::mouseMoveEvent(QMouseEvent *e)
 {
-    if (mousedown) movePoint(e->x(), height()-e->y());
+    QVector3D invClick = inverseClick(QVector3D(e->x(), height()-e->y(), 1));
+    if (mousedown)
+        movePoint( invClick.x(), invClick.y() );
     update();
 }
 
 void BasicOpenGLView::mouseReleaseEvent(QMouseEvent *e)
 {
     // finished move point
-    movePoint(e->x(), height()-e->y());
+    QVector3D invClick = inverseClick(QVector3D(e->x(), height()-e->y(), 1));
+    movePoint( invClick.x(), invClick.y() );
     mousedown = false;
     if (viewportScaling)
         scaleViewport();
     update();
 }
 
-void BasicOpenGLView::movePoint(int x, int y)
+void BasicOpenGLView::movePoint(int invX, int invY)
 {
-    QVector3D invPoint = QVector3D(x, y, 1);
-    if (transform)  // This pattern repeats throughout the code: if user wants to transform
-        invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Account for matrix stack
-    if (viewportScaling)
-        invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for viewport scale
     if (mousedown) {
         if (csv == NULL)    // If no vertex selected
-            select(x, y);  // Look for vertex selected
+            select(invX, invY);  // Look for vertex selected
         if (csv != NULL) {  // If vertex selected
-            csv->setX(invPoint.x());
-            csv->setY(invPoint.y());
+            csv->setX(invX);
+            csv->setY(invY);
         }
     }
 }
 
-void BasicOpenGLView::addPoint(int x, int y)
+void BasicOpenGLView::addPoint(int invX, int invY)
 {
-    int i;
-    //double[3] invPoint = {x, y, 1};
-    QVector3D invPoint = QVector3D(x, y, 1);
-    if (transform)
-        invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Account for the matrix stack
-    if (viewportScaling)
-        invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for the viewport scale
-    for (i = 0; i < polygons.size(); i++) {
-        if ( polygons.at(i).size() > 0 && ( (polygons.at(i).at(0).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(0).x()+RADIUS) > invPoint.x() )
-                                       && ( (polygons.at(i).at(0).y()-RADIUS) < invPoint.y() && (polygons.at(i).at(0).y()+RADIUS) > invPoint.y() ) ) {
+    for (int i = 0; i < polygons.size(); i++) {
+        if ( polygons.at(i).size() > 0 \
+             && ( (polygons.at(i).at(0).x()-RADIUS) < invX && (polygons.at(i).at(0).x()+RADIUS) > invX )
+             && ( (polygons.at(i).at(0).y()-RADIUS) < invY && (polygons.at(i).at(0).y()+RADIUS) > invY ) ) {
             newPoly();
             return;
         }
     }
-    polygons.last().append(QVector3D(invPoint.x(), invPoint.y(), 1));
+    polygons.last().append(QVector3D(invX, invY, 1));
 }
 
-void BasicOpenGLView::select(int x, int y)
+void BasicOpenGLView::select(int invX, int invY)
 {
-    int i, j;
-    QVector3D invPoint = QVector3D(x, y, 1);
-    if (transform)
-        invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Multiply by the Matrix stack
-    if (viewportScaling)
-        invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Multiply by the viewport scale
-    for (i = 0; i < polygons.size(); i++) {
-        for (j = 0; j < polygons.at(i).size(); j++) {
-            if (   ( (polygons.at(i).at(j).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(j).x()+RADIUS) > invPoint.x() )
-                && ( (polygons.at(i).at(j).y()-RADIUS) < invPoint.y() && (polygons.at(i).at(j).y()+RADIUS) > invPoint.y() ) ) {
+    for (int i = 0; i < polygons.size(); i++) {
+        for (int j = 0; j < polygons.at(i).size(); j++) {
+            if (   ( (polygons.at(i).at(j).x()-RADIUS) < invX && (polygons.at(i).at(j).x()+RADIUS) > invX )
+                && ( (polygons.at(i).at(j).y()-RADIUS) < invY && (polygons.at(i).at(j).y()+RADIUS) > invY ) ) {
                 csv = &(polygons[i][j]);
             }
         }
@@ -153,7 +140,7 @@ void BasicOpenGLView::drawFigure()
     // draw a line between each pair of points
     int x0,x1,y0,y1,i,j, firstX, firstY;
     int numPolys = polygons.size();
-    QVector3D transformed;
+    QVector3D visVert;
 
     for (i = 0; i < numPolys; i++)
     {
@@ -162,24 +149,17 @@ void BasicOpenGLView::drawFigure()
             ;
         else
         {
-            transformed = polygons.at(i).at(0);
-            if (transform)
-                transformed = vectorTransform(transformed, stack.top());  // Transform by the matrix stack
-            if (viewportScaling)
-                transformed = vectorTransform(transformed, viewportScale);  // Tranform by the viewport scale
-            firstX = transformed.x();
-            firstY = transformed.y();
+            visVert = visualVertex(polygons.at(i).at(0));
+
+            firstX = visVert.x();
+            firstY = visVert.y();
             x0 = firstX;
             y0 = firstY;
 
             for (j = 1; j < polygons.at(i).size(); j++) {
-                transformed = polygons.at(i).at(j);
-                if (transform)
-                    transformed = vectorTransform(transformed, stack.top());
-                if (viewportScaling)
-                    transformed = vectorTransform(transformed, viewportScale);
-                x1 = transformed.x();
-                y1 = transformed.y();
+                visVert = visualVertex(polygons.at(i).at(j));
+                x1 = visVert.x();
+                y1 = visVert.y();
                 drawLine(x0, y0, x1, y1);
                 x0 = x1;  y0 = y1;
 
@@ -191,12 +171,8 @@ void BasicOpenGLView::drawFigure()
         }
 
         for (j = 0; j < polygons.at(i).size(); j++){
-            transformed = polygons.at(i).at(j);
-            if (transform)
-                transformed = vectorTransform(transformed, stack.top());  // Tranform by the matrix stack
-            if (viewportScaling)
-                transformed = vectorTransform(transformed, viewportScale);  // Transform by the viewport scale
-            drawCircle( (double)RADIUS, transformed.x(), transformed.y(), false);
+            visVert = visualVertex(polygons.at(i).at(j));
+            drawCircle( (double)RADIUS, visVert.x(), visVert.y(), false);
         }
     }
 }
@@ -268,6 +244,26 @@ void BasicOpenGLView::clearStack()
 
 /* ******************** PRIVATE FUNCTIONS ******************** */
 
+QVector3D BasicOpenGLView::visualVertex(QVector3D result) {
+    if (transform && viewportScaling)
+        result = vectorTransform(result, (viewportScale * stack.top()));
+    else if (transform)
+        result = vectorTransform(result, stack.top());
+    else if (viewportScaling)
+        result = vectorTransform(result, viewportScale);
+    return result;
+}
+
+QVector3D BasicOpenGLView::inverseClick(QVector3D result) {
+    if (transform && viewportScaling)
+        result = vectorTransform(result, invertMatrix((viewportScale * stack.top())));
+    else if (transform)
+        result = vectorTransform(result, invertMatrix(stack.top()));
+    else if (viewportScaling)
+        result = vectorTransform(result, invertMatrix(viewportScale));
+    return result;
+}
+
 QVector3D BasicOpenGLView::vectorTransform(QVector3D v, QMatrix3x3 m)
 {
     QVector3D transformed = QVector3D();
@@ -306,43 +302,26 @@ void BasicOpenGLView::scaleViewport() {
 
     int i, j;
     double minX, maxX, minY, maxY;
+    QVector3D visVert;
 
     // set mins and maxs to a point on the screen
-    if (transform) {
-        minX = vectorTransform(polygons.at(0).at(0), stack.top()).x();
-        maxX = minX;
-        minY = vectorTransform(polygons.at(0).at(0), stack.top()).y();
-        maxY = minY;
-    }
-    else {
-        minX = vectorTransform(polygons.at(0).at(0), (viewportScale * stack.top())).x();
-        maxX = minX;
-        minY = vectorTransform(polygons.at(0).at(0), (viewportScale * stack.top())).y();
-        maxY = minY;
-    }
+    minX = visualVertex(polygons.at(0).at(0)).x();
+    maxX = minX;
+    minY = visualVertex(polygons.at(0).at(0)).y();
+    maxY = minY;
 
+    viewportScaling = false;
     // Set mins and maxes
     for (i = 0; i < polygons.size(); i++) {
         for (j = 0; j < polygons.at(i).size(); j++) {
-           QVector3D invPoint = polygons.at(i).at(j);
-           if (transform)
-               invPoint = vectorTransform(invPoint, (viewportScale * stack.top()));
-           else
-               invPoint = vectorTransform(invPoint, viewportScale);
-           if (invPoint.x() < minX) minX = invPoint.x();
-           else if (invPoint.x() > maxX) maxX = invPoint.x();
-           if (invPoint.y() < minY) minY = invPoint.y();
-           else if (invPoint.y() > maxY) maxY = invPoint.y();
+           visVert = visualVertex(polygons.at(i).at(j));
+           if (visVert.x() < minX) minX = visVert.x();
+           else if (visVert.x() > maxX) maxX = visVert.x();
+           if (visVert.y() < minY) minY = visVert.y();
+           else if (visVert.y() > maxY) maxY = visVert.y();
         }
     }
-
-    qDebug() << "";
-    qDebug() << minX;
-    qDebug() << minY;
-    qDebug() << maxX;
-    qDebug() << maxY;
-    qDebug() << width();
-    qDebug() << height();
+    viewportScaling = true;
 
     // If all points are within the viewport, then exit
     if (minX >= 0 &&  minY >= 0 && maxX <= width() && maxY <= height())
@@ -350,12 +329,15 @@ void BasicOpenGLView::scaleViewport() {
 
     double scale;
     if (((maxX-minX) - width()) > ((maxY-minY) - height()))
-        scale = (width() / ((maxX-minX)*1.1));
+        scale = (width() / (maxX-minX));
     else
-        scale = (height() / ((maxY-minY)*1.1));
+        scale = (height() / (maxY-minY));
 
-    double elems1[] = {1, 0, (-minX + 5), 0, 1, (-minY + 5), 0, 0, 1};
-    double elems2[] = {scale, 0, 0, 0, scale, 0, 0, 0, 1};  // scale to bring all elements into the viewport
+    double elems1[] = {1, 0, -(minX - 5), 0, 1, -(minY - 5), 0, 0, 1};
+    double elems2[] = {scale*.9, 0, 0, 0, scale*.9, 0, 0, 0, 1};  // scale to bring all elements into the viewport
 
+    qDebug() << QMatrix3x3(elems1);
+    qDebug() << QMatrix3x3(elems2);
+    viewportScale.setToIdentity();
     viewportScale = viewportScale * (QMatrix3x3(elems2) * QMatrix3x3(elems1));
 }

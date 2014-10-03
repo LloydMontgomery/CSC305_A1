@@ -127,9 +127,9 @@ protected:
 private:
     bool mousedown;
 
-    void movePoint(int x, int y);
-    void addPoint(int x,  int y);
-    void select(int x, int y);
+    void movePoint(int invX, int invY);
+    void addPoint(int invX,  int invY);
+    void select(int invX, int invY);
     void drawFigure();
     void drawCircle(double radius, double xcen, double ycen, bool line);
     void drawLine(double x0, double y0, double x1, double y1 );
@@ -167,6 +167,10 @@ private:
      *
      */
     void scaleViewport();
+
+    QVector3D visualVertex(QVector3D result);
+
+    QVector3D inverseClick(QVector3D result);
 
 };
 
