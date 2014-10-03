@@ -91,11 +91,16 @@ void BasicOpenGLView::movePoint(int x, int y)
 void BasicOpenGLView::addPoint(int x, int y)
 {
     int i;
+    //double[3] invPoint = {x, y, 1};
     QVector3D invPoint = QVector3D(x, y, 1);
+    qDebug() << invPoint;
     if (transform)
         invPoint = vectorTransform(invPoint, invertMatrix(stack.top()));  // Account for the matrix stack
+    qDebug() << stack.top();
+    qDebug() << invertMatrix(stack.top());
     if (viewportScaling)
         invPoint = vectorTransform(invPoint, invertMatrix(viewportScale));  // Account for the viewport scale
+    qDebug() << invPoint;
     for (i = 0; i < polygons.size(); i++) {
         if ( polygons.at(i).size() > 0 && ( (polygons.at(i).at(0).x()-RADIUS) < invPoint.x() && (polygons.at(i).at(0).x()+RADIUS) > invPoint.x() )
                                        && ( (polygons.at(i).at(0).y()-RADIUS) < invPoint.y() && (polygons.at(i).at(0).y()+RADIUS) > invPoint.y() ) ) {
@@ -276,7 +281,7 @@ QMatrix3x3 BasicOpenGLView::invertMatrix(QMatrix3x3 orig)
 {
     QMatrix3x3 inv = QMatrix3x3();
     double det = (\
-        (orig.operator()(0,0) * ((orig.operator()(1,1) * orig.operator()(2,2)) - (orig.operator()(1,2) * orig.operator()(2,1)))) + \
+        (orig.operator()(0,0) * ((orig.operator()(1,1) * orig.operator()(2,2)) - (orig.operator()(1,2) * orig.operator()(2,1)))) - \
         (orig.operator()(0,1) * ((orig.operator()(1,0) * orig.operator()(2,2)) - (orig.operator()(1,2) * orig.operator()(2,0)))) + \
         (orig.operator()(0,2) * ((orig.operator()(1,0) * orig.operator()(2,1)) - (orig.operator()(1,1) * orig.operator()(2,0)))) );
 

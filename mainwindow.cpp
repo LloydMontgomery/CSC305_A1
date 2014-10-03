@@ -36,11 +36,11 @@ void MainWindow::pushMatrix()
     ui->oglwidget->pushMatrix(temp);
     addToSS();
 
-    ui->m11->setText("1");
-    ui->m12->setText("0");
+    ui->m11->setText(".866");
+    ui->m12->setText("-.5");
     ui->m13->setText("0");
-    ui->m21->setText("0");
-    ui->m22->setText("1");
+    ui->m21->setText(".5");
+    ui->m22->setText(".866");
     ui->m23->setText("0");
     ui->m31->setText("0");
     ui->m32->setText("0");
