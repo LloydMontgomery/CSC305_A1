@@ -43,11 +43,11 @@ void BasicOpenGLView::paintGL()
 
 void BasicOpenGLView::mousePressEvent(QMouseEvent *e)
 {
-
     if (mousedown) return;
     mousedown = true;
     csv = NULL;
 
+    // Invert the click for drawing purposes.  This is done throughout the code
     QVector3D invClick = inverseClick(QVector3D(e->x(), height()-e->y(), 1));
     if (e->button() == Qt::RightButton)
         addPoint( invClick.x(), invClick.y() );
@@ -80,7 +80,7 @@ void BasicOpenGLView::movePoint(int invX, int invY)
     if (mousedown) {
         if (csv == NULL)    // If no vertex selected
             select(invX, invY);  // Look for vertex selected
-        if (csv != NULL) {  // If vertex selected
+        if (csv != NULL) {  // If vertex selected, then change the coordinates
             csv->setX(invX);
             csv->setY(invY);
         }
@@ -89,25 +89,23 @@ void BasicOpenGLView::movePoint(int invX, int invY)
 
 void BasicOpenGLView::addPoint(int invX, int invY)
 {
-    for (int i = 0; i < polygons.size(); i++) {
-        if ( polygons.at(i).size() > 0 \
-             && ( (polygons.at(i).at(0).x()-RADIUS) < invX && (polygons.at(i).at(0).x()+RADIUS) > invX )
-             && ( (polygons.at(i).at(0).y()-RADIUS) < invY && (polygons.at(i).at(0).y()+RADIUS) > invY ) ) {
-            newPoly();
-            return;
-        }
-    }
-    polygons.last().append(QVector3D(invX, invY, 1));
+    // Look to see if the user clicked on the first vertex of the polygon they are on
+    if ( polygons.last().size() > 0 \
+         && ( (polygons.last().at(0).x()-RADIUS) < invX && (polygons.last().at(0).x()+RADIUS) > invX ) \
+         && ( (polygons.last().at(0).y()-RADIUS) < invY && (polygons.last().at(0).y()+RADIUS) > invY ) )
+            newPoly();  // If they did click on the start point of the polygon they are on, close it by creating a new polygon
+    else
+        polygons.last().append(QVector3D(invX, invY, 1));
 }
 
 void BasicOpenGLView::select(int invX, int invY)
 {
+    // Look through all vertices to see if the user clicked on one.  If so, set the current vertex point to that vertex
     for (int i = 0; i < polygons.size(); i++) {
         for (int j = 0; j < polygons.at(i).size(); j++) {
             if (   ( (polygons.at(i).at(j).x()-RADIUS) < invX && (polygons.at(i).at(j).x()+RADIUS) > invX )
-                && ( (polygons.at(i).at(j).y()-RADIUS) < invY && (polygons.at(i).at(j).y()+RADIUS) > invY ) ) {
-                csv = &(polygons[i][j]);
-            }
+                && ( (polygons.at(i).at(j).y()-RADIUS) < invY && (polygons.at(i).at(j).y()+RADIUS) > invY ) )
+                    csv = &(polygons[i][j]);
         }
     }
 }
@@ -140,7 +138,7 @@ void BasicOpenGLView::drawFigure()
     // draw a line between each pair of points
     int x0,x1,y0,y1,i,j, firstX, firstY;
     int numPolys = polygons.size();
-    QVector3D visVert;
+    QVector3D visVert;  // The visual vertex is different than stored vertex
 
     for (i = 0; i < numPolys; i++)
     {
@@ -179,7 +177,8 @@ void BasicOpenGLView::drawFigure()
 
 /* ********************** PUBLIC SLOTS ********************** */
 
-void BasicOpenGLView::newPoly() {
+void BasicOpenGLView::newPoly()
+{
     polygons.append(QVector<QVector3D>());
     polyColors.append(QVector<double>(3));
     polyColors.last()[0] = ((double) rand() / (RAND_MAX));
@@ -299,13 +298,21 @@ QMatrix3x3 BasicOpenGLView::invertMatrix(QMatrix3x3 orig)
 }
 
 void BasicOpenGLView::scaleViewport() {
-    if (polygons.at(0).size() == 0)  // nothing on the screen
+    if (polygons.at(0).size() == 0)  // If nothing on the screen
         return;
 
     int i, j;
     double minX, maxX, minY, maxY;
-    QVector3D visVert;
+    QVector3D visVert;  // Visual vertices are different than the stored vertices
 
+    /* First time around, we want to check to see if all the points are on the screen
+     * given the viewport scaling (in other words, visually). If all the points are on the screen,
+     * then we do not need to scale again, so we exit immediately.  If some points are not on the
+     * screen, then I calculate maxes and mins based on not including the viewport, since I
+     * am throwing out the viewport scaling by overwriting the old viewport scaling with the new
+     * viewport scaling.  Once the maxes and mins have been found, we can move onto the rest of
+     * the code.
+     */
     for (int itter = 0; itter < 2; itter++) {
         // set mins and maxs to a point on the screen
         minX = visualVertex(polygons.at(0).at(0)).x();
@@ -334,7 +341,7 @@ void BasicOpenGLView::scaleViewport() {
                 return;
     }
 
-
+    // The scale is the ratio between screen size and visual vertex placement (scale to bring vertices onto the screen)
     double scale;
     if (((maxX-minX) - width()) > ((maxY-minY) - height()))
         scale = (width() / (maxX-minX));
@@ -344,8 +351,6 @@ void BasicOpenGLView::scaleViewport() {
     double elems1[] = {1, 0, -(minX - 5), 0, 1, -(minY - 5), 0, 0, 1};
     double elems2[] = {scale*.9, 0, 0, 0, scale*.9, 0, 0, 0, 1};  // scale to bring all elements into the viewport
 
-    qDebug() << QMatrix3x3(elems1);
-    qDebug() << QMatrix3x3(elems2);
-    viewportScale.setToIdentity();
-    viewportScale = viewportScale * (QMatrix3x3(elems2) * QMatrix3x3(elems1));
+    viewportScale.setToIdentity();  // Set back to the identity so we don't get floating point errors over time
+    viewportScale = (QMatrix3x3(elems2) * QMatrix3x3(elems1));
 }
